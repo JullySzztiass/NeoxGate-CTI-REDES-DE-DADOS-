@@ -1,140 +1,158 @@
-<h1>Titulo ou Arte do Projeto</h1> 
+Projeto Rede de Dados – Tutoria 2026
+<p align="center"> <img src="https://img.shields.io/static/v1?label=Firewall&message=seguranca&color=red&style=for-the-badge"/> <img src="https://img.shields.io/static/v1?label=VPN&message=anel%20redundante&color=blue&style=for-the-badge"/> <img src="https://img.shields.io/static/v1?label=Cloud&message=AWS%20%2F%20Azure&color=orange&style=for-the-badge&logo=amazonaws"/> <img src="https://img.shields.io/static/v1?label=IoT&message=PIR%20%7C%20LDR%20%7C%20Ultrassonico&color=green&style=for-the-badge"/> <img src="http://img.shields.io/static/v1?label=License&message=MIT&color=green&style=for-the-badge"/> <img src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=RED&style=for-the-badge"/> </p>
 
-<p align="center">
-  <img src="https://img.shields.io/static/v1?label=react&message=framework&color=blue&style=for-the-badge&logo=REACT"/>
-  <img src="https://img.shields.io/static/v1?label=Netlify&message=deploy&color=blue&style=for-the-badge&logo=netlify"/>
-  <img src="http://img.shields.io/static/v1?label=License&message=MIT&color=green&style=for-the-badge"/>
-  <img src="http://img.shields.io/static/v1?label=Ruby&message=2.6.3&color=red&style=for-the-badge&logo=ruby"/>
-  <img src="http://img.shields.io/static/v1?label=Ruby%20On%20Rails%20&message=6.0.2.2&color=red&style=for-the-badge&logo=ruby"/>
-  <img src="http://img.shields.io/static/v1?label=TESTES&message=%3E100&color=GREEN&style=for-the-badge"/>
-   <img src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=RED&style=for-the-badge"/>
-   <img src="http://img.shields.io/static/v1?label=STATUS&message=CONCLUIDO&color=GREEN&style=for-the-badge"/>
-</p>
+Status do Projeto: :warning: em desenvolvimento
 
-> Status do Projeto: :heavy_check_mark: :warning: (concluido, em desenvolvimento, etc)
+Tópicos
 
-### Tópicos 
+:small_blue_diamond: Descrição do projeto
 
-:small_blue_diamond: [Descrição do projeto](#descrição-do-projeto)
+:small_blue_diamond: Requisitos e funcionalidades
 
-:small_blue_diamond: [Funcionalidades](#funcionalidades)
+:small_blue_diamond: Topologia e layout da rede
 
-:small_blue_diamond: [Deploy da Aplicação](#deploy-da-aplicação-dash)
+:small_blue_diamond: Segmentação de rede (VLANs)
 
-:small_blue_diamond: [Pré-requisitos](#pré-requisitos)
+:small_blue_diamond: Pré-requisitos
 
-:small_blue_diamond: [Como rodar a aplicação](#como-rodar-a-aplicação-arrow_forward)
+:small_blue_diamond: Como implantar o ambiente
 
-... 
+:small_blue_diamond: Aplicação de cadastro de clientes
 
-Insira os tópicos do README em links para facilitar a navegação do leitor
+:small_blue_diamond: Tecnologias utilizadas
 
-## Descrição do projeto 
+:small_blue_diamond: Tarefas em aberto
 
-<p align="justify">
-  Descrição breve do projeto compondo um paragrafo ou dois. 
-</p>
+:small_blue_diamond: Desenvolvedores
 
-## Funcionalidades
+Descrição do projeto
+<p align="justify"> Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, que simula um ambiente corporativo completo com matriz, filial e nuvem. O objetivo é aplicar conceitos de roteamento, segurança, resiliência de comunicação, IoT, desenvolvimento e monitoramento, garantindo conectividade, segurança e escalabilidade. </p> <p align="justify"> Além dos aspectos técnicos, o projeto busca desenvolver soft skills, como o trabalho em equipe multicultural e multidisciplinar. </p>
+Requisitos e funcionalidades
+Matriz
 
-:heavy_check_mark: Funcionalidade 1  
+:heavy_check_mark: Firewall com controle de acesso à internet (navegação) e à nuvem
 
-:heavy_check_mark: Funcionalidade 2  
+:heavy_check_mark: Acesso à rede restrito a notebooks e desktops autorizados pela empresa
 
-:heavy_check_mark: Funcionalidade 3  
+:heavy_check_mark: Acesso remoto a servidor Windows com autenticação SSO, restrito a usuários com permissão (dupla autenticação é diferencial)
 
-:heavy_check_mark: Funcionalidade 4  
+:heavy_check_mark: VPN entre o firewall da matriz e a nuvem (banco de dados)
 
-## Layout ou Deploy da Aplicação :dash:
+:heavy_check_mark: VPN entre o firewall da matriz e o da filial
 
-> Link do deploy da aplicação. Exemplo com netlify: https://certificates-for-everyone-womakerscode.netlify.app/
+:heavy_check_mark: Isolamento entre os PCs da matriz e da filial
 
-... 
+Filial (escritório de vendas, 5 pessoas)
 
-Se ainda não houver deploy, insira capturas de tela da aplicação ou gifs
+:heavy_check_mark: Firewall com controle de acesso à internet e à nuvem
 
-## Pré-requisitos
+:heavy_check_mark: Acesso à rede restrito a equipamentos autorizados
 
-:warning: [Node](https://nodejs.org/en/download/)
+:heavy_check_mark: VPN para a nuvem e VPN para a matriz
 
-...
+:heavy_check_mark: Navegação na internet realizada através do firewall da matriz
 
-Liste todas as dependencias e libs que o usuário deve ter instalado na máquina antes de rodar a aplicação 
+Ambos os escritórios (segurança física / IoT)
 
-## Como rodar a aplicação :arrow_forward:
+:heavy_check_mark: Sensores de movimento (PIR), luminosidade (LDR) e presença/distância (ultrassônico)
 
-No terminal, clone o projeto: 
+:heavy_check_mark: Alarme acionado na matriz e na filial em caso de evento fora do padrão
 
-```
-git clone https://github.com/React-Bootcamp-WoMarkersCode/certificate-generator
-```
+:heavy_check_mark: Sensores em rede separada (VLAN10), acessível pelos dois escritórios
 
-... 
+:heavy_check_mark: Monitoramento dos sensores e gerenciamento de logs
 
-Coloque um passo a passo para rodar a sua aplicação. **Dica: clone o próprio projeto e verfique se o passo a passo funciona**
+Rede VPN em anel
 
-## Como rodar os testes
+:heavy_check_mark: Anel interligando matriz, filial e nuvem (AWS/Azure)
 
-Coloque um passo a passo para executar os testes
+:heavy_check_mark: Em caso de falha de um link, a comunicação segue pelo caminho remanescente
 
-```
-$ npm test, rspec, etc 
-```
+Topologia e layout da rede :dash:
 
-## Casos de Uso
+Inserir aqui o diagrama da topologia (matriz, filial, nuvem, VPNs e VLANs).
 
-Explique com mais detalhes como a sua aplicação poderia ser utilizada. O uso de **gifs** aqui seria bem interessante. 
+Mostrar Imagem
 
-Exemplo: Caso a sua aplicação tenha alguma funcionalidade de login apresente neste tópico os dados necessários para acessá-la.
+Segmentação de rede (VLANs)
+VLAN	Finalidade	Regras de acesso
+VLAN3	Servidores	Hospeda apenas os servidores e suas aplicações
+VLAN5	Colaboradores	Acessa as aplicações dos servidores (VLAN3)
+VLAN8	TI	Acessa os servidores por portas pré-definidas e os equipamentos dos colaboradores
+VLAN10	Sensores IoT	Rede apartada, acessível por matriz e filial
+Pré-requisitos
 
-## JSON :floppy_disk:
+:warning: Firewalls para matriz e filial
 
-### Usuários: 
+:warning: Switches com suporte a VLAN
 
-|name|email|password|token|avatar|
-| -------- |-------- |-------- |-------- |-------- |
-|Lais Lima|laislima98@hotmail.com|lais123|true|https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS9-U_HbQAipum9lWln3APcBIwng7T46hdBA42EJv8Hf6Z4fDT3&usqp=CAU|
+:warning: Conta em provedor de nuvem (AWS ou Azure)
 
-... 
+:warning: Servidor Windows (acesso remoto com SSO)
 
-Se quiser, coloque uma amostra do banco de dados 
-
-## Iniciando/Configurando banco de dados
-
-Se for necessário configurar algo antes de iniciar o banco de dados insira os comandos a serem executados 
-
-## Linguagens, dependencias e libs utilizadas :books:
-
-- [React](https://pt-br.reactjs.org/docs/create-a-new-react-app.html)
-- [React PDF](https://react-pdf.org/)
+:warning: Placas/microcontroladores e sensores (PIR, LDR, ultrassônico)
 
 ...
 
-Liste as tecnologias utilizadas no projeto que **não** forem reconhecidas pelo Github 
+Complementar com versões e ferramentas utilizadas conforme o projeto avançar.
 
-## Resolvendo Problemas :exclamation:
+Como implantar o ambiente :arrow_forward:
+Configurar as VLANs (3, 5, 8 e 10) na matriz;
+Configurar os firewalls da matriz e da filial (controle de navegação e de acesso);
+Estabelecer as VPNs em anel (matriz ↔ filial ↔ nuvem);
+Provisionar o banco de dados na nuvem;
+Publicar o servidor de aplicação na matriz;
+Configurar acesso remoto com SSO/2FA ao servidor Windows;
+Instalar os sensores e configurar o alarme e a coleta de logs.
 
-Em [issues]() foram abertos alguns problemas gerados durante o desenvolvimento desse projeto e como foram resolvidos. 
+Detalhar os comandos e configurações de cada etapa.
 
-## Tarefas em aberto
+Como rodar os testes
 
-Se for o caso, liste tarefas/funcionalidades que ainda precisam ser implementadas na sua aplicação
+Descrever os testes de validação (ex.: derrubar um link do anel e verificar a comunicação; testar bloqueio matriz ↔ filial; acionar sensor e validar alarme).
 
-:memo: Tarefa 1 
+Aplicação de cadastro de clientes
 
-:memo: Tarefa 2 
+Aplicação didática hospedada em servidor na matriz, com banco de dados na nuvem. O foco é a forma, o controle e a segurança do acesso (quem acessa e como), e não o design. Permite apenas o cadastro de clientes.
 
-:memo: Tarefa 3 
+Casos de uso
+Colaborador (VLAN5) acessa a aplicação para cadastrar clientes;
+Equipe de TI (VLAN8) acessa os servidores em portas pré-definidas para manutenção;
+Usuário remoto acessa o servidor Windows via SSO e dupla autenticação.
+Iniciando/Configurando banco de dados
 
-## Desenvolvedores/Contribuintes :octocat:
+Inserir os comandos de criação e configuração do banco de dados na nuvem.
 
-Liste o time responsável pelo desenvolvimento do projeto
+Tecnologias utilizadas :books:
+Firewall (matriz e filial)
+VPN site-to-site em anel
+AWS / Azure
+Servidor Windows com SSO e 2FA
+Sensores PIR, LDR e ultrassônico
+VLANs
 
-| [<img src="https://avatars2.githubusercontent.com/u/46378210?s=400&u=071f7791bb03f8e102d835bdb9c2f0d3d24e8a34&v=4" width=115><br><sub>Diana Regina</sub>](https://github.com/Diana-ops) |  [<img src="https://avatars2.githubusercontent.com/u/46378210?s=400&u=071f7791bb03f8e102d835bdb9c2f0d3d24e8a34&v=4" width=115><br><sub>Diana Regina</sub>](https://github.com/Diana-ops) |  [<img src="https://avatars2.githubusercontent.com/u/46378210?s=400&u=071f7791bb03f8e102d835bdb9c2f0d3d24e8a34&v=4" width=115><br><sub>Diana Regina</sub>](https://github.com/Diana-ops) |
-| :---: | :---: | :---: 
+Complementar com marcas, versões e linguagem da aplicação quando definidas.
 
-## Licença 
+Resolvendo Problemas :exclamation:
 
-The [MIT License]() (MIT)
+Em issues serão registrados os problemas gerados durante o desenvolvimento e como foram resolvidos.
 
-Copyright :copyright: Ano - Titulo do Projeto
+Tarefas em aberto
+
+:memo: Definir e documentar a topologia final
+
+:memo: Implementar a VPN em anel e testar a redundância
+
+:memo: Configurar SSO e dupla autenticação
+
+:memo: Integrar sensores, alarme e gerenciamento de logs
+
+:memo: Desenvolver a aplicação de cadastro de clientes
+
+Desenvolvedores :octocat:
+<img src="https://avatars.githubusercontent.com/u/0?v=4" width=115><br><sub>Nome</sub>	<img src="https://avatars.githubusercontent.com/u/0?v=4" width=115><br><sub>Nome</sub>
+Licença
+
+The MIT License (MIT)
+
+Copyright :copyright: 2026 - Projeto Rede de Dados (SENAI e CTI)
