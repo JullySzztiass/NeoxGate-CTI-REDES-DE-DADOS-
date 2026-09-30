@@ -48,7 +48,7 @@
 ## Descrição do projeto 
 
 <p align="justify">
-  Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, que simula um ambiente corporativo completo com matriz, filial e nuvem. O objetivo é aplicar conceitos de roteamento, segurança, resiliência de comunicação, IoT, desenvolvimento e monitoramento, garantindo conectividade, segurança e escalabilidade.
+  Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, que simula um ambiente corporativo completo com matriz, filial e nuvem. O objetivo é aplicar conceitos de roteamento, segurança[...]
 </p>
 
 <p align="justify">
@@ -184,7 +184,7 @@ O anel interliga matriz, filial e nuvem. Se um dos links falhar, a comunicação
 
 ## Aplicação e Banco de Dados :computer:
 
-Aplicação didática de cadastro de clientes, hospedada em servidor na matriz e acessada pelos colaboradores. O banco de dados fica hospedado na nuvem. O foco é a forma, o controle e a segurança do acesso (quem acessa e como), e não o design.
+Aplicação didática de cadastro de clientes, hospedada em servidor na matriz e acessada pelos colaboradores. O banco de dados fica hospedado na nuvem. O foco é a forma, o controle e a segurança do[...]
 
 | Item | Valor |
 | -------- | -------- |
@@ -278,8 +278,8 @@ Em [issues]() serão registrados os problemas gerados durante o desenvolvimento 
 
 ## Desenvolvedores/Contribuintes :octocat:
 
-| [<img src="https://avatars.githubusercontent.com/u/0?v=4" width=115><br><sub>Nome</sub>](https://github.com/usuario) |  [<img src="https://avatars.githubusercontent.com/u/0?v=4" width=115><br><sub>Nome</sub>](https://github.com/usuario) |  [<img src="https://avatars.githubusercontent.com/u/0?v=4" width=115><br><sub>Nome</sub>](https://github.com/usuario) |
-| :---: | :---: | :---: |
+| [<img src="https://github.com/JullySzztiass.png" width=115><br><sub>Jully Ferrari</sub>](https://github.com/JullySzztiass) |
+| :---: |
 
 ## Licença 
 
