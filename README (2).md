@@ -281,6 +281,19 @@ Em [issues]() serão registrados os problemas gerados durante o desenvolvimento 
 | [<img src="https://github.com/JullySzztiass.png" width=115><br><sub>Jully Ferrari</sub>](https://github.com/JullySzztiass) |
 | :---: |
 
+### GitHub da autora
+
+<p align="center">
+  <a href="https://github.com/JullySzztiass" target="_blank">
+    <img src="https://github.com/JullySzztiass.png" width="120" alt="Jully Ferrari" style="border-radius: 50%;" />
+  </a>
+</p>
+
+<p align="center">
+  <strong>Jully Ferrari</strong><br>
+  <a href="https://github.com/JullySzztiass" target="_blank">@JullySzztiass</a>
+</p>
+
 ## Licença 
 
 The [MIT License]() (MIT)
