@@ -27,7 +27,6 @@
 
 ... 
 
-Insira os tópicos do README em links para facilitar a navegação do leitor
 
 ## Descrição do projeto 
 
@@ -51,7 +50,7 @@ Insira os tópicos do README em links para facilitar a navegação do leitor
 
 ... 
 
-Se ainda não houver deploy, insira capturas de tela da aplicação ou gifs
+
 
 ## Pré-requisitos
 
@@ -59,7 +58,7 @@ Se ainda não houver deploy, insira capturas de tela da aplicação ou gifs
 
 ...
 
-Liste todas as dependencias e libs que o usuário deve ter instalado na máquina antes de rodar a aplicação 
+
 
 ## Como rodar a aplicação :arrow_forward:
 
