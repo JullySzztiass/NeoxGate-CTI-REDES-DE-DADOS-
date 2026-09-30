@@ -70,11 +70,10 @@ git clone https://github.com/React-Bootcamp-WoMarkersCode/certificate-generator
 
 ... 
 
-Coloque um passo a passo para rodar a sua aplicação. **Dica: clone o próprio projeto e verfique se o passo a passo funciona**
 
 ## Como rodar os testes
 
-Coloque um passo a passo para executar os testes
+
 
 ```
 $ npm test, rspec, etc 
@@ -82,9 +81,7 @@ $ npm test, rspec, etc
 
 ## Casos de Uso
 
-Explique com mais detalhes como a sua aplicação poderia ser utilizada. O uso de **gifs** aqui seria bem interessante. 
 
-Exemplo: Caso a sua aplicação tenha alguma funcionalidade de login apresente neste tópico os dados necessários para acessá-la.
 
 ## JSON :floppy_disk:
 
@@ -96,11 +93,11 @@ Exemplo: Caso a sua aplicação tenha alguma funcionalidade de login apresente n
 
 ... 
 
-Se quiser, coloque uma amostra do banco de dados 
+
 
 ## Iniciando/Configurando banco de dados
 
-Se for necessário configurar algo antes de iniciar o banco de dados insira os comandos a serem executados 
+
 
 ## Linguagens, dependencias e libs utilizadas :books:
 
@@ -109,7 +106,7 @@ Se for necessário configurar algo antes de iniciar o banco de dados insira os c
 
 ...
 
-Liste as tecnologias utilizadas no projeto que **não** forem reconhecidas pelo Github 
+
 
 ## Resolvendo Problemas :exclamation:
 
@@ -117,7 +114,7 @@ Em [issues]() foram abertos alguns problemas gerados durante o desenvolvimento d
 
 ## Tarefas em aberto
 
-Se for o caso, liste tarefas/funcionalidades que ainda precisam ser implementadas na sua aplicação
+
 
 :memo: Tarefa 1 
 
