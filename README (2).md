@@ -1,4 +1,4 @@
-<h1>Projeto Rede de Dados – Tutoria 2026</h1> 
+<h1>Projeto Rede de Dados – Tutoria 2026</h1>
 
 <p align="center">
   <img src="https://img.shields.io/static/v1?label=Firewall&message=seguranca&color=red&style=for-the-badge"/>
@@ -11,7 +11,7 @@
 
 > Status do Projeto: :warning: (em desenvolvimento)
 
-### Tópicos 
+### Tópicos
 
 :small_blue_diamond: [Descrição do projeto](#descrição-do-projeto)
 
@@ -22,6 +22,8 @@
 :small_blue_diamond: [Configuração dos Firewalls](#configuração-dos-firewalls-fire)
 
 :small_blue_diamond: [Segmentação de Rede (VLANs)](#segmentação-de-rede-vlans-floppy_disk)
+
+:small_blue_diamond: [Endereçamento da rede](#endereçamento-da-rede)
 
 :small_blue_diamond: [VPNs e Anel de Redundância](#vpns-e-anel-de-redundância-link)
 
@@ -45,14 +47,14 @@
 
 :small_blue_diamond: [Desenvolvedores/Contribuintes](#desenvolvedorescontribuintes-octocat)
 
-## Descrição do projeto 
+## Descrição do projeto
 
 <p align="justify">
-  Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, que simula um ambiente corporativo completo com matriz, filial e nuvem. O objetivo é aplicar conceitos de roteamento, segurança[...]
+  Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, que simula um ambiente corporativo completo com matriz, filial e nuvem. O objetivo é aplicar conceitos de roteamento, segurança, segmentação de rede, VPN, redundância e monitoramento de sensores IoT em uma infraestrutura tecnológica didática e funcional.
 </p>
 
 <p align="justify">
-  Além dos aspectos técnicos, o projeto busca desenvolver soft skills, como o trabalho em equipe multicultural e multidisciplinar.
+  Além dos aspectos técnicos, o projeto busca desenvolver soft skills, como o trabalho em equipe multicultural e multidisciplinar, além da capacidade de planejamento, documentação e implementação de soluções de redes corporativas.
 </p>
 
 ## Funcionalidades
@@ -99,17 +101,43 @@
 
 ## Layout ou Deploy da Aplicação :dash:
 
-> Inserir o diagrama da topologia (matriz, filial, nuvem, VPNs e VLANs).
+> Diagrama da topologia do ambiente com matriz, filial, nuvem, VPNs e VLANs.
 
-![Topologia da rede](caminho/para/topologia.png)
+```text
+                 +---------------------+
+                 |      NUVEM          |
+                 |   Banco de Dados    |
+                 |   VPC 10.1.1.0/24  |
+                 +----------+----------+
+                            |
+                  VPN /30 172.31.0.4/30
+                            |
+                 +----------+----------+
+                 |      Firewall       |
+                 |  Matriz 192.168.100.10 |
+                 | VLAN3 10.0.3.0/24  |
+                 | VLAN5 10.0.5.0/24  |
+                 | VLAN8 10.0.8.0/24  |
+                 | VLAN10 10.0.10.0/24 |
+                 +-----------+---------+
+                             |
+                     VPN M-F
+                             |
+                 +-----------+---------+
+                 |     Firewall        |
+                 |  Filial 192.168.100.20 |
+                 | VLAN10 10.1.10.0/24 |
+                 | PCs 10.1.5.0/24    |
+                 +---------------------+
+```
 
 ### Componentes da topologia
 
 | Local | Componentes | Detalhes |
 | -------- | -------- | -------- |
-| Matriz | Firewall, switch(es), servidor de aplicação, servidor Windows, PCs de colaboradores e TI, sensores | A definir |
-| Filial | Firewall, switch, PCs de vendas (5 usuários), sensores | A definir |
-| Nuvem | Banco de dados (AWS/Azure) | A definir |
+| Matriz | Firewall, switch(es), servidor de aplicação, servidor Windows, PCs de colaboradores e TI, sensores | Rede principal da empresa e ponto de acesso à nuvem |
+| Filial | Firewall, switch, PCs de vendas (5 usuários), sensores | Escritório de vendas com acesso restrito e conexão à matriz |
+| Nuvem | Banco de dados (AWS/Azure) | Banco hospedado em VPC com comunicação via VPN |
 
 ## Configuração dos Firewalls :fire:
 
@@ -124,8 +152,8 @@
 | Item | Valor |
 | -------- | -------- |
 | Marca/Modelo | A definir |
-| IP de gerência | A definir |
-| Regras implementadas | A definir |
+| IP de gerência | 192.168.100.10 |
+| Regras implementadas | ACLs para VLAN3, VLAN5, VLAN8, VLAN10, acesso à internet e comunicação via VPN |
 
 ### Firewall da Filial
 
@@ -137,31 +165,61 @@
 | Item | Valor |
 | -------- | -------- |
 | Marca/Modelo | A definir |
-| IP de gerência | A definir |
-| Regras implementadas | A definir |
+| IP de gerência | 192.168.100.20 |
+| Regras implementadas | ACLs para VLAN10, PCs, acesso à matriz e à nuvem via VPN |
 
 ## Segmentação de Rede (VLANs) :floppy_disk:
 
 |VLAN|Finalidade|Quem acessa / Regras de acesso|Faixa de IP|
 | -------- |-------- |-------- |-------- |
-|VLAN3|Servidores|Hospeda apenas os servidores e suas aplicações|A definir|
-|VLAN5|Colaboradores|Acessa as aplicações dos servidores (VLAN3)|A definir|
-|VLAN8|TI|Acessa os servidores por portas pré-definidas (VLAN3) e os equipamentos dos colaboradores (VLAN5)|A definir|
-|VLAN10|Sensores IoT|Rede apartada da rede local, acessível por matriz e filial|A definir|
+|VLAN3|Servidores|Hospeda apenas os servidores e suas aplicações|10.0.3.0/24|
+|VLAN5|Colaboradores|Acessa as aplicações dos servidores (VLAN3)|10.0.5.0/24|
+|VLAN8|TI|Acessa os servidores por portas pré-definidas (VLAN3) e os equipamentos dos colaboradores (VLAN5)|10.0.8.0/24|
+|VLAN10|Sensores IoT|Rede apartada da rede local, acessível por matriz e filial|10.0.10.0/24|
+
+### Endereçamento da rede
+
+* rede matriz
+
+VLAN3 Servidores — 10.0.3.0/24  
+VLAN5 Colaboradores — 10.0.5.0/24  
+VLAN8 TI — 10.0.8.0/24  
+VLAN10 IoT — 10.0.10.0/24  
+Firewall — 192.168.100.10
+
+* rede filial
+
+VLAN10 IoT — 10.1.10.0/24  
+PCs — 10.1.5.0/24  
+Firewall — 192.168.100.20
+
+* Firewall do meio
+
+192.168.100.1
+
+* Banco de dados
+
+VPC/Banco — 10.1.1.0/24
 
 ## VPNs e Anel de Redundância :link:
 
 | Túnel | Origem | Destino | Finalidade | Tipo/Protocolo |
 | -------- | -------- | -------- | -------- | -------- |
-| VPN 1 | Matriz | Nuvem | Acesso ao banco de dados | A definir |
-| VPN 2 | Matriz | Filial | Comunicação entre escritórios | A definir |
-| VPN 3 | Filial | Nuvem | Acesso ao banco de dados | A definir |
+| VPN 1 | Matriz | Nuvem | Acesso ao banco de dados | IPsec / site-to-site |
+| VPN 2 | Matriz | Filial | Comunicação entre escritórios | IPsec / site-to-site |
+| VPN 3 | Filial | Nuvem | Acesso ao banco de dados | IPsec / site-to-site |
 
 O anel interliga matriz, filial e nuvem. Se um dos links falhar, a comunicação de todos os pontos continua pelo caminho remanescente.
 
+### Túneis VPN
+
+- M–F: 172.31.0.0/30
+- M–N: 172.31.0.4/30
+- F–N: 172.31.0.8/30
+
 | Item | Valor |
 | -------- | -------- |
-| Protocolo de roteamento/failover | A definir |
+| Protocolo de roteamento/failover | OSPF / roteamento dinâmico com redundância em anel |
 | Tempo de convergência | A definir |
 
 ## Sensores e Alarme :rotating_light:
@@ -184,7 +242,7 @@ O anel interliga matriz, filial e nuvem. Se um dos links falhar, a comunicação
 
 ## Aplicação e Banco de Dados :computer:
 
-Aplicação didática de cadastro de clientes, hospedada em servidor na matriz e acessada pelos colaboradores. O banco de dados fica hospedado na nuvem. O foco é a forma, o controle e a segurança do[...]
+Aplicação didática de cadastro de clientes, hospedada em servidor na matriz e acessada pelos colaboradores. O banco de dados fica hospedado na nuvem. O foco é a forma, o controle e a segurança do ambiente, além da infraestrutura de rede que sustenta a aplicação.
 
 | Item | Valor |
 | -------- | -------- |
@@ -192,6 +250,7 @@ Aplicação didática de cadastro de clientes, hospedada em servidor na matriz e
 | Banco de dados | Nuvem (AWS/Azure) |
 | Linguagem/Framework | A definir |
 | Banco utilizado | A definir |
+| Rede do banco | 10.1.1.0/24 |
 
 ## Pré-requisitos
 
@@ -245,6 +304,15 @@ Detalhar os comandos e configurações de cada etapa.
 
 Inserir os comandos de criação e configuração do banco de dados na nuvem.
 
+Exemplo de estrutura mínima:
+
+```bash
+# Exemplo ilustrativo de provisionamento
+CREATE DATABASE neoxgate;
+CREATE USER app_user WITH PASSWORD 'senha123';
+GRANT ALL PRIVILEGES ON DATABASE neoxgate TO app_user;
+```
+
 ## Linguagens, dependencias e libs utilizadas :books:
 
 - Firewall (matriz e filial)
@@ -253,6 +321,8 @@ Inserir os comandos de criação e configuração do banco de dados na nuvem.
 - Servidor Windows com SSO e 2FA
 - Sensores PIR, LDR e ultrassônico
 - VLANs
+- Banco de dados em nuvem
+- Redes corporativas e ACLs
 
 ... 
 
