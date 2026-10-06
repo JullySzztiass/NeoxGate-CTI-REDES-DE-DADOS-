@@ -11,7 +11,10 @@
 
 > Status do projeto: :warning: em desenvolvimento
 
-## Sumário
+---
+
+<details>
+<summary><strong>📋 Sumário (clique para expandir/retrair)</strong></summary>
 
 - [Descrição do projeto](#descrição-do-projeto)
 - [Objetivo da infraestrutura](#objetivo-da-infraestrutura)
@@ -32,6 +35,10 @@
 - [Desenvolvedores](#desenvolvedorescontribuintes-octocat)
 - [Licença](#licença)
 
+</details>
+
+---
+
 ## Descrição do projeto
 
 <p align="justify">
@@ -41,6 +48,8 @@
 <p align="justify">
   O cenário representa uma empresa com múltiplos locais, exigindo regras de acesso, isolamento de tráfego, comunicação segura entre pontos e monitoramento de ambientes físicos. Além dos desafios técnicos, o projeto também estimula trabalho em equipe, documentação e planejamento de infraestrutura.
 </p>
+
+---
 
 ## Objetivo da infraestrutura
 
@@ -52,6 +61,8 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 - manter redundância para continuidade do serviço
 - proteger o ambiente de sensores e dispositivos IoT
 - integrar aplicações corporativas com banco de dados em nuvem
+
+---
 
 ## Funcionalidades
 
@@ -83,11 +94,45 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 - :heavy_check_mark: Conexão entre matriz, filial e nuvem
 - :heavy_check_mark: Redundância para manter comunicação em caso de falha de um link
 
+---
+
 ## Arquitetura da solução
 
 > Estrutura geral do ambiente de redes corporativas e IoT.
 
-![Diagrama da matriz](topologia-matriz.svg)
+### Diagrama da Matriz
+
+```
+                 +---------------------------+
+                 |          NUVEM            |
+                 |  Banco de Dados          |
+                 |  VPC / Banco: 10.1.1.0/24 |
+                 +------------+--------------+
+                              |
+                              | VPN /30 172.31.0.4/30
+                              |
+    ┌────────────────────────────────────────────────────┐
+    │                                                     │
+    │  FIREWALL 1 (Matriz) - 192.168.100.10              │
+    │         ↕ VPN (172.31.0.0/30)                     │
+    │  FIREWALL 2 (Filial) - 192.168.100.20              │
+    │                                                     │
+    │  ┌─────────────────────────────────────────────┐   │
+    │  │          SWITCH MATRIZ                      │   │
+    │  │  Distribuição Central das VLANs             │   │
+    │  └──┬──────────┬──────────┬──────────┬─────────┘   │
+    │     │          │          │          │              │
+    │     │          │          │          │              │
+    │  ┌──▼──┐   ┌──▼──┐   ┌──▼──┐   ┌──▼──┐             │
+    │  │VLAN3│   │VLAN5│   │VLAN8│   │VLAN10            │
+    │  │ SRV │   │ COL │   │ TI  │   │ IoT  │            │
+    │  └─────┘   └─────┘   └─────┘   └─────┘            │
+    │                                                     │
+    │  Servidores: Apache, Zabbix, MQTT, AD DS          │
+    │  Sensores: PIR, LDR, Ultrassônico (ESP32)         │
+    │                                                     │
+    └────────────────────────────────────────────────────┘
+```
 
 ### Componentes da topologia
 
@@ -96,6 +141,8 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 | Matriz | Firewall, switch(es), servidor de aplicação, servidor Windows, PCs de colaboradores e TI, sensores | Rede principal da empresa e acesso à nuvem |
 | Filial | Firewall, switch, PCs de vendas (5 usuários), sensores | Escritório local com comunicação segura com matriz |
 | Nuvem | Banco de dados em AWS/Azure | Infraestrutura centralizada para dados e serviços |
+
+---
 
 ## Endereçamento da rede
 
@@ -124,6 +171,8 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 | Firewall do meio | 192.168.100.1 |
 | Banco de dados / VPC | 10.1.1.0/24 |
 
+---
+
 ## Segmentação de rede (VLANs)
 
 | VLAN | Finalidade | Quem acessa / regras | Faixa de IP |
@@ -132,6 +181,8 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 | VLAN5 | Colaboradores | Acessa aplicações dos servidores | 10.0.5.0/24 |
 | VLAN8 | TI | Acessa servidores e equipamentos de colaboradores por portas pré-definidas | 10.0.8.0/24 |
 | VLAN10 | Sensores IoT | Rede isolada, acessível por matriz e filial | 10.0.10.0/24 |
+
+---
 
 ## Configuração dos firewalls
 
@@ -162,6 +213,8 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 | IP de gerência | 192.168.100.20 |
 | Regras implementadas | ACLs para VLAN10, PCs, acesso à matriz e à nuvem via VPN |
 
+---
+
 ## VPNs e redundância em anel
 
 | Túnel | Origem | Destino | Finalidade | Tipo / Protocolo |
@@ -183,6 +236,8 @@ O anel interliga matriz, filial e nuvem. Caso um link falhe, a comunicação con
 | Protocolo de roteamento / failover | OSPF / roteamento dinâmico com redundância em anel |
 | Tempo de convergência | A definir |
 
+---
+
 ## Sensores e alarme
 
 | Sensor | Função | Onde |
@@ -201,6 +256,8 @@ O anel interliga matriz, filial e nuvem. Caso um link falhe, a comunicação con
 | Protocolo de comunicação | A definir |
 | Ferramenta de monitoramento e logs | A definir |
 
+---
+
 ## Aplicação e banco de dados
 
 Aplicação didática de cadastro de clientes, hospedada em servidor na matriz e acessada pelos colaboradores. O banco de dados fica na nuvem, com foco em segurança, controle de acesso e infraestrutura de rede.
@@ -213,6 +270,8 @@ Aplicação didática de cadastro de clientes, hospedada em servidor na matriz e
 | Banco utilizado | A definir |
 | Rede do banco | 10.1.1.0/24 |
 
+---
+
 ## Pré-requisitos
 
 - :warning: Firewalls para matriz e filial
@@ -221,6 +280,8 @@ Aplicação didática de cadastro de clientes, hospedada em servidor na matriz e
 - :warning: Servidor Windows com acesso remoto e SSO
 - :warning: Sensores PIR, LDR e ultrassônico
 - :warning: Equipamentos de monitoramento e registros de eventos
+
+---
 
 ## Como rodar a aplicação
 
@@ -232,6 +293,8 @@ Aplicação didática de cadastro de clientes, hospedada em servidor na matriz e
 6. Configurar o acesso remoto com SSO e 2FA ao servidor Windows
 7. Instalar os sensores e configurar o alarme e a coleta de logs
 
+---
+
 ## Como rodar os testes
 
 ```bash
@@ -241,12 +304,16 @@ Aplicação didática de cadastro de clientes, hospedada em servidor na matriz e
 - Acionar um sensor e validar o alarme na matriz e na filial
 ```
 
+---
+
 ## Casos de uso
 
 - Colaborador da VLAN5 acessa a aplicação para cadastrar clientes
 - Equipe de TI da VLAN8 acessa servidores em portas pré-definidas
 - Usuário remoto acessa o servidor Windows com SSO e dupla autenticação
 - Sensor detecta movimento fora do expediente e dispara alarme nos dois escritórios
+
+---
 
 ## Banco de dados
 
@@ -260,6 +327,8 @@ CREATE USER app_user WITH PASSWORD 'senha123';
 GRANT ALL PRIVILEGES ON DATABASE neoxgate TO app_user;
 ```
 
+---
+
 ## Linguagens, dependências e libs utilizadas
 
 - Firewall (matriz e filial)
@@ -271,6 +340,8 @@ GRANT ALL PRIVILEGES ON DATABASE neoxgate TO app_user;
 - Banco de dados em nuvem
 - Redes corporativas e ACLs
 
+---
+
 ## Tarefas em aberto
 
 - :memo: Documentar a topologia da rede
@@ -281,10 +352,14 @@ GRANT ALL PRIVILEGES ON DATABASE neoxgate TO app_user;
 - :memo: Documentar os sensores e o alarme
 - :memo: Configurar SSO e dupla autenticação
 
+---
+
 ## Desenvolvedores/Contribuintes :octocat:
 
 | [<img src="https://github.com/JullySzztiass.png" width=115><br><sub>Jully Ferrari</sub>](https://github.com/JullySzztiass) |
 | :---: |
+
+---
 
 ## Licença
 
