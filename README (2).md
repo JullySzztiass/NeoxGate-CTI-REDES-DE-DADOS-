@@ -15,41 +15,21 @@
 <summary><strong>📑 Sumário</strong></summary>
 
 - [Descrição do projeto](#descrição-do-projeto)
-- [Objetivo da infraestrutura](#objetivo-da-infraestrutura)
-- [Funcionalidades](#funcionalidades)
 - [Arquitetura da solução](#arquitetura-da-solução)
 - [Endereçamento da rede](#endereçamento-da-rede)
 - [Segmentação de rede (VLANs)](#segmentação-de-rede-vlans)
 - [Configuração dos firewalls](#configuração-dos-firewalls)
 - [VPNs e redundância em anel](#vpns-e-redundância-em-anel)
 - [Sensores e alarme](#sensores-e-alarme)
-- [Aplicação e banco de dados](#aplicação-e-banco-de-dados)
-- [Pré-requisitos](#pré-requisitos)
-- [Como rodar a aplicação](#como-rodar-a-aplicação)
-- [Como rodar os testes](#como-rodar-os-testes)
-- [Casos de uso](#casos-de-uso)
-- [Banco de dados](#banco-de-dados)
 - [Tarefas em aberto](#tarefas-em-aberto)
-- [Desenvolvedores](#desenvolvedorescontribuintes-octocat)
-- [Licença](#licença)
 
 </details>
-
----
 
 ## Descrição do projeto
 
 <p align="justify">
-  Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, com foco em simular um ambiente corporativo completo composto por matriz, filial e nuvem. A solução foi pensada para aplicar conceitos de roteamento, segurança, segmentação de rede, VPN, redundância e monitoramento de sensores IoT em uma infraestrutura didática e funcional.
+  Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, com foco em simular um ambiente corporativo completo composto por matriz, filial e nuvem. A solução foi pensada para aplicar conceitos de segmentação de rede, redundância, segurança e monitoramento de ambientes físicos com sensores IoT.
 </p>
-
-<p align="justify">
-  O cenário representa uma empresa com múltiplos locais, exigindo regras de acesso, isolamento de tráfego, comunicação segura entre pontos e monitoramento de ambientes físicos. Além dos desafios técnicos, o projeto também estimula trabalho em equipe, documentação e planejamento de infraestrutura.
-</p>
-
----
-
-## Objetivo da infraestrutura
 
 O projeto tem como objetivo demonstrar como uma organização pode:
 
@@ -60,46 +40,12 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 - proteger o ambiente de sensores e dispositivos IoT
 - integrar aplicações corporativas com banco de dados em nuvem
 
----
-
-## Funcionalidades
-
-### Matriz
-
-- :heavy_check_mark: Firewall com controle de acesso à internet e à nuvem
-- :heavy_check_mark: Rede restrita a computadores autorizados
-- :heavy_check_mark: Acesso remoto ao servidor Windows com autenticação SSO
-- :heavy_check_mark: VPN entre matriz e nuvem
-- :heavy_check_mark: VPN entre matriz e filial
-- :heavy_check_mark: Isolamento entre PCs da matriz e da filial
-
-### Filial
-
-- :heavy_check_mark: Firewall com controle de acesso à internet e à nuvem
-- :heavy_check_mark: Rede restrita a equipamentos autorizados
-- :heavy_check_mark: VPN para matriz e nuvem
-- :heavy_check_mark: Navegação pela internet com saída por meio da matriz
-
-### Segurança física / IoT
-
-- :heavy_check_mark: Sensores PIR, LDR e ultrassônico
-- :heavy_check_mark: Alarme acionado em caso de evento fora do padrão
-- :heavy_check_mark: Sensores em rede separada (VLAN10)
-- :heavy_check_mark: Monitoramento e logs dos eventos
-
-### Rede VPN em anel
-
-- :heavy_check_mark: Conexão entre matriz, filial e nuvem
-- :heavy_check_mark: Redundância para manter comunicação em caso de falha de um link
-
----
-
 ## Arquitetura da solução
 
 > Estrutura geral do ambiente de redes corporativas e IoT.
 
 <p align="center">
-  <img src="./imagem/topologia-matriz.svg" alt="Diagrama da matriz" width="100%" />
+  <img src="./crie-um-diagrama-de-topologia-de-rede-profissional.jpg" alt="Diagrama da topologia de rede" width="100%" />
 </p>
 
 ### Componentes da topologia
@@ -109,8 +55,6 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 | Matriz | Firewall, switch(es), servidor de aplicação, servidor Windows, PCs de colaboradores e TI, sensores | Rede principal da empresa e acesso à nuvem |
 | Filial | Firewall, switch, PCs de vendas (5 usuários), sensores | Escritório local com comunicação segura com matriz |
 | Nuvem | Banco de dados em AWS/Azure | Infraestrutura centralizada para dados e serviços |
-
----
 
 ## Endereçamento da rede
 
@@ -139,8 +83,6 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 | Firewall do meio | 192.168.100.1 |
 | Banco de dados / VPC | 10.1.1.0/24 |
 
----
-
 ## Segmentação de rede (VLANs)
 
 | VLAN | Finalidade | Quem acessa / regras | Faixa de IP |
@@ -149,8 +91,6 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 | VLAN5 | Colaboradores | Acessa aplicações dos servidores | 10.0.5.0/24 |
 | VLAN8 | TI | Acessa servidores e equipamentos de colaboradores por portas pré-definidas | 10.0.8.0/24 |
 | VLAN10 | Sensores IoT | Rede isolada, acessível por matriz e filial | 10.0.10.0/24 |
-
----
 
 ## Configuração dos firewalls
 
@@ -181,8 +121,6 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 | IP de gerência | 192.168.100.20 |
 | Regras implementadas | ACLs para VLAN10, PCs, acesso à matriz e à nuvem via VPN |
 
----
-
 ## VPNs e redundância em anel
 
 | Túnel | Origem | Destino | Finalidade | Tipo / Protocolo |
@@ -204,8 +142,6 @@ O anel interliga matriz, filial e nuvem. Caso um link falhe, a comunicação con
 | Protocolo de roteamento / failover | OSPF / roteamento dinâmico com redundância em anel |
 | Tempo de convergência | A definir |
 
----
-
 ## Sensores e alarme
 
 | Sensor | Função | Onde |
@@ -223,92 +159,6 @@ O anel interliga matriz, filial e nuvem. Caso um link falhe, a comunicação con
 | Placa / microcontrolador | A definir |
 | Protocolo de comunicação | A definir |
 | Ferramenta de monitoramento e logs | A definir |
-
----
-
-## Aplicação e banco de dados
-
-Aplicação didática de cadastro de clientes, hospedada em servidor na matriz e acessada pelos colaboradores. O banco de dados fica na nuvem, com foco em segurança, controle de acesso e infraestrutura de rede.
-
-| Item | Valor |
-| --- | --- |
-| Servidor de aplicação | Matriz (VLAN3) |
-| Banco de dados | Nuvem (AWS/Azure) |
-| Linguagem / Framework | A definir |
-| Banco utilizado | A definir |
-| Rede do banco | 10.1.1.0/24 |
-
----
-
-## Pré-requisitos
-
-- :warning: Firewalls para matriz e filial
-- :warning: Switches com suporte a VLAN
-- :warning: Conta em provedor de nuvem (AWS ou Azure)
-- :warning: Servidor Windows com acesso remoto e SSO
-- :warning: Sensores PIR, LDR e ultrassônico
-- :warning: Equipamentos de monitoramento e registros de eventos
-
----
-
-## Como rodar a aplicação
-
-1. Configurar as VLANs (3, 5, 8 e 10) na matriz
-2. Configurar os firewalls da matriz e da filial
-3. Estabelecer as VPNs em anel (matriz <-> filial <-> nuvem)
-4. Provisionar o banco de dados na nuvem
-5. Publicar o servidor de aplicação na matriz
-6. Configurar o acesso remoto com SSO e 2FA ao servidor Windows
-7. Instalar os sensores e configurar o alarme e a coleta de logs
-
----
-
-## Como rodar os testes
-
-```bash
-- Derrubar um link do anel e verificar a comunicação
-- Testar o bloqueio entre PCs da matriz e da filial
-- Validar o acesso entre VLANs conforme a tabela de regras
-- Acionar um sensor e validar o alarme na matriz e na filial
-```
-
----
-
-## Casos de uso
-
-- Colaborador da VLAN5 acessa a aplicação para cadastrar clientes
-- Equipe de TI da VLAN8 acessa servidores em portas pré-definidas
-- Usuário remoto acessa o servidor Windows com SSO e dupla autenticação
-- Sensor detecta movimento fora do expediente e dispara alarme nos dois escritórios
-
----
-
-## Banco de dados
-
-Inserir os comandos de criação e configuração do banco de dados na nuvem.
-
-Exemplo ilustrativo:
-
-```bash
-CREATE DATABASE neoxgate;
-CREATE USER app_user WITH PASSWORD 'senha123';
-GRANT ALL PRIVILEGES ON DATABASE neoxgate TO app_user;
-```
-
----
-
-## Linguagens, dependências e libs utilizadas
-
-- Firewall (matriz e filial)
-- VPN site-to-site em anel
-- AWS / Azure
-- Servidor Windows com SSO e 2FA
-- Sensores PIR, LDR e ultrassônico
-- VLANs
-- Banco de dados em nuvem
-- Redes corporativas e ACLs
-
----
 
 ## Tarefas em aberto
 
