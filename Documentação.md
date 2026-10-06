@@ -11,11 +11,6 @@
 
 > Status do projeto: :warning: em desenvolvimento
 
-## Preparação pré-projeto
-
-- Link do Miro para apoio da etapa inicial do projeto: [Preparação pré-projeto](https://miro.com/app/board/uXjVHhTdmiQ=/?share_link_id=182961988823)
-- Esta etapa reúne os conceitos iniciais de arquitetura, topologia, escopo, requisitos e organização do ambiente antes da implementação técnica.
-
 <details open>
 <summary><strong>📑 Sumário</strong></summary>
 
@@ -273,3 +268,5 @@ O anel interliga matriz, filial e nuvem. Caso um link falhe, a comunicação con
 The [MIT License]() (MIT)
 
 Copyright :copyright: 2026 - Projeto Rede de Dados (SENAI e CTI)
+
+> Referência: [Preparação pré-projeto](https://miro.com/app/board/uXjVHhTdmiQ=/?share_link_id=182961988823)
