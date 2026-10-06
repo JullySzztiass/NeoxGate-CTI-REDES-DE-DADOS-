@@ -45,7 +45,7 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 > Estrutura geral do ambiente de redes corporativas e IoT.
 
 <p align="center">
-  <img src="./imagens/mantenha-o-diagrama-anexo-exatamente-como-está-lay.jpg" alt="Diagrama da topologia de rede" width="100%" />
+  <img src="./imagens/diagrama.jpg" alt="Diagrama da topologia de rede" width="100%" />
 </p>
 
 ### Componentes da topologia
