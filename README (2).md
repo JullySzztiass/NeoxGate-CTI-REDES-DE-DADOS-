@@ -19,6 +19,7 @@
 - [Endereçamento da rede](#endereçamento-da-rede)
 - [Segmentação de rede (VLANs)](#segmentação-de-rede-vlans)
 - [Configuração dos firewalls](#configuração-dos-firewalls)
+- [Configuração do switch da matriz](#configuração-do-switch-da-matriz)
 - [VPNs e redundância em anel](#vpns-e-redundância-em-anel)
 - [Sensores e alarme](#sensores-e-alarme)
 - [Tarefas em aberto](#tarefas-em-aberto)
@@ -28,7 +29,7 @@
 ## Descrição do projeto
 
 <p align="justify">
-  Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, com foco em simular um ambiente corporativo completo composto por matriz, filial e nuvem. A solução foi pensada para aplicar conceitos de segmentação de rede, redundância, segurança e monitoramento de ambientes físicos com sensores IoT.
+  Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, com foco em simular um ambiente corporativo completo composto por matriz, filial e nuvem. A solução foi pensada para aplicar conceitos de segurança, roteamento, segmentação e automação em uma infraestrutura realista baseado em redes corporativas e dispositivos IoT.
 </p>
 
 O projeto tem como objetivo demonstrar como uma organização pode:
@@ -120,6 +121,89 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 | Marca / Modelo | A definir |
 | IP de gerência | 192.168.100.20 |
 | Regras implementadas | ACLs para VLAN10, PCs, acesso à matriz e à nuvem via VPN |
+
+## Configuração do switch da matriz
+
+A camada de acesso da matriz foi implementada com Open vSwitch (OVS), permitindo a criação de uma bridge lógica com segmentação por VLANs e integração com o firewall e os serviços internos.
+
+### Topologia utilizada
+
+| Interface | Segmento | VLAN | Função |
+| --- | --- | --- | --- |
+| ens37 | NAT | - | Acesso externo / internet |
+| ens38 | link-fw | trunk | Uplink com o firewall |
+| ens39 | vlan3-srv | 3 | Servidores |
+| ens40 | vlan5-colab | 5 | Colaboradores |
+| ens41 | vlan8-ti | 8 | TI |
+| ens42 | vlan10-iot | 10 | Sensores IoT |
+
+### Objetivo
+
+O switch atua como ponto de agregação da rede corporativa, separando o tráfego por função e mantendo o ambiente controlado:
+
+- VLAN 3: servidores
+- VLAN 5: colaboradores
+- VLAN 8: TI
+- VLAN 10: sensores IoT
+
+### Comandos utilizados
+
+```bash
+su -
+
+apt update
+apt install openvswitch-switch
+ovs-vsctl add-br br0
+
+ovs-vsctl add-port br0 ens37
+ovs-vsctl add-port br0 ens38 tag=3
+ovs-vsctl add-port br0 ens39 tag=5
+ovs-vsctl add-port br0 ens40 tag=8
+ovs-vsctl add-port br0 ens41 tag=10
+
+for i in ens37 ens38 ens39 ens40 ens41; do
+    ip link set $i up
+done
+
+cat > /etc/network/interfaces.d/ovs-ports << 'EOF'
+auto ens37
+iface ens37 inet manual
+
+auto ens38
+iface ens38 inet manual
+
+auto ens39
+iface ens39 inet manual
+
+auto ens40
+iface ens40 inet manual
+
+auto ens41
+iface ens41 inet manual
+EOF
+```
+
+### Explicação da configuração
+
+- `ovs-vsctl add-br br0` cria a bridge lógica do switch.
+- `ovs-vsctl add-port br0 ens37` adiciona a interface física ao switch.
+- `ovs-vsctl add-port br0 ens38 tag=3` associa a interface à VLAN 3.
+- As demais interfaces foram separadas por VLAN:
+  - ens39 -> VLAN 5
+  - ens40 -> VLAN 8
+  - ens41 -> VLAN 10
+
+Essa abordagem permite a criação de um switch virtual multilayer com isolamento lógico entre os segmentos da rede, melhorando a organização, a segurança e o controle de acesso.
+
+### Verificação da funcionalidade
+
+```bash
+ovs-vsctl show
+ip link show
+ovs-vsctl list-ports br0
+```
+
+A validação pode ser feita observando se as portas físicas foram integradas ao bridge e se as VLANs foram corretamente associadas às interfaces.
 
 ## VPNs e redundância em anel
 
