@@ -87,33 +87,7 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 
 > Estrutura geral do ambiente de redes corporativas e IoT.
 
-```text
-                 +---------------------------+
-                 |          NUVEM            |
-                 |  Banco de Dados          |
-                 |  VPC / Banco: 10.1.1.0/24 |
-                 +------------+--------------+
-                              |
-                              | VPN /30 172.31.0.4/30
-                              |
-                 +------------+--------------+
-                 |       Firewall           |
-                 |  Matriz 192.168.100.10  |
-                 |  VLAN3 10.0.3.0/24      |
-                 |  VLAN5 10.0.5.0/24      |
-                 |  VLAN8 10.0.8.0/24      |
-                 |  VLAN10 10.0.10.0/24    |
-                 +------------+--------------+
-                              |
-                              | VPN M-F
-                              |
-                 +------------+--------------+
-                 |       Firewall           |
-                 |  Filial 192.168.100.20  |
-                 |  VLAN10 10.1.10.0/24    |
-                 |  PCs 10.1.5.0/24        |
-                 +---------------------------+
-```
+![Diagrama da matriz](topologia-matriz.svg)
 
 ### Componentes da topologia
 
