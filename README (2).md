@@ -11,10 +11,8 @@
 
 > Status do projeto: :warning: em desenvolvimento
 
----
-
-<details>
-<summary><strong>📋 Sumário (clique para expandir/retrair)</strong></summary>
+<details open>
+<summary><strong>📑 Sumário</strong></summary>
 
 - [Descrição do projeto](#descrição-do-projeto)
 - [Objetivo da infraestrutura](#objetivo-da-infraestrutura)
@@ -100,39 +98,9 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 
 > Estrutura geral do ambiente de redes corporativas e IoT.
 
-### Diagrama da Matriz
-
-```
-                 +---------------------------+
-                 |          NUVEM            |
-                 |  Banco de Dados          |
-                 |  VPC / Banco: 10.1.1.0/24 |
-                 +------------+--------------+
-                              |
-                              | VPN /30 172.31.0.4/30
-                              |
-    ┌────────────────────────────────────────────────────┐
-    │                                                     │
-    │  FIREWALL 1 (Matriz) - 192.168.100.10              │
-    │         ↕ VPN (172.31.0.0/30)                     │
-    │  FIREWALL 2 (Filial) - 192.168.100.20              │
-    │                                                     │
-    │  ┌─────────────────────────────────────────────┐   │
-    │  │          SWITCH MATRIZ                      │   │
-    │  │  Distribuição Central das VLANs             │   │
-    │  └──┬──────────┬──────────┬──────────┬─────────┘   │
-    │     │          │          │          │              │
-    │     │          │          │          │              │
-    │  ┌──▼──┐   ┌──▼──┐   ┌──▼──┐   ┌──▼──┐             │
-    │  │VLAN3│   │VLAN5│   │VLAN8│   │VLAN10            │
-    │  │ SRV │   │ COL │   │ TI  │   │ IoT  │            │
-    │  └─────┘   └─────┘   └─────┘   └─────┘            │
-    │                                                     │
-    │  Servidores: Apache, Zabbix, MQTT, AD DS          │
-    │  Sensores: PIR, LDR, Ultrassônico (ESP32)         │
-    │                                                     │
-    └────────────────────────────────────────────────────┘
-```
+<p align="center">
+  <img src="./imagem/topologia-matriz.svg" alt="Diagrama da matriz" width="100%" />
+</p>
 
 ### Componentes da topologia
 
