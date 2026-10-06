@@ -11,6 +11,11 @@
 
 > Status do projeto: :warning: em desenvolvimento
 
+## Preparação pré-projeto
+
+- Link do Miro para apoio da etapa inicial do projeto: [Preparação pré-projeto](https://miro.com/app/board/uXjVHhTdmiQ=/?share_link_id=182961988823)
+- Esta etapa reúne os conceitos iniciais de arquitetura, topologia, escopo, requisitos e organização do ambiente antes da implementação técnica.
+
 <details open>
 <summary><strong>📑 Sumário</strong></summary>
 
@@ -29,7 +34,7 @@
 ## Descrição do projeto
 
 <p align="justify">
-  Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, com foco em simular um ambiente corporativo completo composto por matriz, filial e nuvem. A solução foi pensada para aplicar conceitos de segurança, roteamento, segmentação e automação em uma infraestrutura realista baseado em redes corporativas e dispositivos IoT.
+  Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, com foco em simular um ambiente corporativo completo composto por matriz, filial e nuvem. A solução foi pensada para aplicar conceitos de rede, segurança, redundância e monitoramento em um cenário realista de infraestrutura.
 </p>
 
 O projeto tem como objetivo demonstrar como uma organização pode:
