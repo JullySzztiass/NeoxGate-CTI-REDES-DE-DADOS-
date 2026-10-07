@@ -61,8 +61,8 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 
 | Local | Componentes | Detalhes |
 | --- | --- | --- |
-| Matriz | Firewall, switch(es), servidor de aplicação, servidor Windows, PCs de colaboradores e TI, sensores | Rede principal da empresa e acesso à nuvem |
-| Filial | Firewall, switch, PCs de vendas (5 usuários), sensores | Escritório local com comunicação segura com matriz |
+| Matriz | Firewall, switch, servidor de aplicação, servidor Windows, PCs de colaboradores e TI, sensorer | Rede principal da empresa e acesso à nuvem |
+| Filial | Firewall, switch, PCs (3 usuários), sensor | Escritório local com comunicação segura com matriz |
 | Nuvem | Banco de dados em AWS/Azure | Infraestrutura centralizada para dados e serviços |
 
 ## Endereçamento da rede
@@ -91,15 +91,6 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 | --- | --- |
 | Firewall do meio | 192.168.100.1 |
 | Banco de dados / VPC | 10.1.1.0/24 |
-
-## Segmentação de rede (VLANs)
-
-| VLAN | Finalidade | Quem acessa / regras | Faixa de IP |
-| --- | --- | --- | --- |
-| VLAN3 | Servidores | Hospeda servidores e aplicações | 10.0.3.0/24 |
-| VLAN5 | Colaboradores | Acessa aplicações dos servidores | 10.0.5.0/24 |
-| VLAN8 | TI | Acessa servidores e equipamentos de colaboradores por portas pré-definidas | 10.0.8.0/24 |
-| VLAN10 | Sensores IoT | Rede isolada, acessível por matriz e filial | 10.0.10.0/24 |
 
 ## Configuração dos firewalls
 
@@ -234,7 +225,7 @@ O anel interliga matriz, filial e nuvem. Caso um link falhe, a comunicação con
 | Protocolo de roteamento / failover | OSPF / roteamento dinâmico com redundância em anel |
 | Tempo de convergência | A definir |
 
-## Sensores e alarme
+## IoT
 
 | Sensor | Função | Onde |
 | --- | --- | --- |
