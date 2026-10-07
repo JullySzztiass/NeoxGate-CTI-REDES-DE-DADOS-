@@ -12,7 +12,7 @@
 > Status do projeto: :warning: em desenvolvimento
 
 <details open>
-<summary><strong>📑 Sumário</strong></summary>
+<summary><strong>SUMÁRIO</strong></summary>
 
 :small_blue_diamond: [Descrição do projeto](#descrição-do-projeto)
 
