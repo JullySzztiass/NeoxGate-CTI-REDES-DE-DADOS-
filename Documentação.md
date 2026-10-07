@@ -29,7 +29,7 @@
 ## Descrição do projeto
 
 <p align="justify">
-  Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, com foco em simular um ambiente corporativo completo composto por matriz, filial e nuvem. A solução foi pensada para aplicar conceitos de rede, segurança, redundância e monitoramento em um cenário realista de infraestrutura.
+  Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, com foco em simular um ambiente corporativo completo composto por matriz, filial e nuvem. A solução foi pensada para aplicar conceitos de redes, segurança e IoT em um contexto real.
 </p>
 
 O projeto tem como objetivo demonstrar como uma organização pode:
@@ -258,10 +258,9 @@ O anel interliga matriz, filial e nuvem. Caso um link falhe, a comunicação con
 
 ## Desenvolvedores/Contribuintes :octocat:
 
-| [<img src="https://github.com/JullySzztiass.png" width=115><br><sub>Jully Ferrari</sub>](https://github.com/JullySzztiass) | 
-| :---: |
-| [<img src="https://github.com/Dedenyee.png" width=115><br><sub>Vinícius</sub>](https://github.com/Dedenyee) | 
-| Desenvolvedor
+| [<img src="https://github.com/JullySzztiass.png" width=115><br><sub>Jully Ferrari</sub>](https://github.com/JullySzztiass) | [<img src="https://github.com/Dedenyee.png" width=115><br><sub>Vinícius</sub>](https://github.com/Dedenyee) |
+| :---: | :---: |
+| Desenvolvedor | Desenvolvedor |
 
 ---
 
