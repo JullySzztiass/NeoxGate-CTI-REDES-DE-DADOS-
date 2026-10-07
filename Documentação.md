@@ -258,10 +258,8 @@ O anel interliga matriz, filial e nuvem. Caso um link falhe, a comunicação con
 
 ## Desenvolvedores/Contribuintes :octocat:
 
-| [<img src="https://github.com/JullySzztiass.png" width=115><br><sub>Jully Ferrari</sub>](https://github.com/JullySzztiass) |
-| :---: |
-| [<img src="https://github.com/Dedenyee.png" width=115><br><sub>Vinícius</sub>](https://github.com/Dedenyee) |
-| :---: |
+| [<img src="https://github.com/JullySzztiass.png" width=115><br><sub>Jully Ferrari</sub>](https://github.com/JullySzztiass) | [<img src="https://github.com/Dedenyee.png" width=115><br><sub>Vinícius</sub>](https://github.com/Dedenyee) |
+| :---: || :---: |
 
 ---
 
