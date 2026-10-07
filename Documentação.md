@@ -48,7 +48,7 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 
 ## Arquitetura da solução
 
-> Topologia inicial de requisição do projeto.
+###> Topologia inicial de requisição do projeto.
 
 <p align="center">
   <img src="./imagens/Captura de tela 2026-10-07 160145.png" alt="Topologia inicial CTI" width="100%" />
