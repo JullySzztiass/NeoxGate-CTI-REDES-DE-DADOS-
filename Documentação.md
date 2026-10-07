@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/static/v1?label=Firewall&message=seguranca&color=red&style=for-the-badge"/>
   <img src="https://img.shields.io/static/v1?label=VPN&message=anel%20redundante&color=blue&style=for-the-badge"/>
   <img src="https://img.shields.io/static/v1?label=Cloud&message=AWS%20%2F%20Azure&color=orange&style=for-the-badge&logo=amazonaws"/>
-  <img src="https://img.shields.io/static/v1?label=IoT&message=PIR%20%7C%20LDR%20%7C%20Ultrassonico&color=green&style=for-the-badge"/>
+  <img src="https://img.shields.io/static/v1?label=IoT&message=Camara%20Emulada&color=green&style=for-the-badge"/>
   <img src="http://img.shields.io/static/v1?label=License&message=MIT&color=green&style=for-the-badge"/>
   <img src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=RED&style=for-the-badge"/>
 </p>
@@ -28,7 +28,7 @@
 
 :small_blue_diamond: [VPNs e redundância em anel](#vpns-e-redundância-em-anel)
 
-:small_blue_diamond: [Sensores e alarme](#sensores-e-alarme)
+:small_blue_diamond: [IoT - Câmera Emulada](#iot---câmera-emulada)
 
 :small_blue_diamond: [Tarefas em aberto](#tarefas-em-aberto)
 
@@ -46,12 +46,12 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 - controlar acesso por firewalls
 - conectar escritórios por VPNs seguras
 - manter redundância para continuidade do serviço
-- proteger o ambiente de sensores e dispositivos IoT
+- proteger o ambiente de dispositivos IoT
 - integrar aplicações corporativas com banco de dados em nuvem
 
 ## Arquitetura da solução
 
-> Diagrama do prototipo 1.2 - Matriz.
+> Diagrama do protótipo 1.2 - Matriz.
 
 <p align="center">
   <img src="./imagens/diagrama.jpg" alt="Diagrama da topologia de rede" width="100%" />
@@ -61,8 +61,8 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 
 | Local | Componentes | Detalhes |
 | --- | --- | --- |
-| Matriz | Firewall, switch, servidor de aplicação, servidor Windows, PCs de colaboradores e TI, sensorer | Rede principal da empresa e acesso à nuvem |
-| Filial | Firewall, switch, PCs (3 usuários), sensor | Escritório local com comunicação segura com matriz |
+| Matriz | Firewall, switch, servidor de aplicação, servidor Windows, PCs de colaboradores e TI, câmera IoT | Rede principal da empresa e acesso à nuvem |
+| Filial | Firewall, switch, PCs (3 usuários), câmera IoT | Escritório local com comunicação segura com matriz |
 | Nuvem | Banco de dados em AWS/Azure | Infraestrutura centralizada para dados e serviços |
 
 ## Endereçamento da rede
@@ -91,6 +91,15 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 | --- | --- |
 | Firewall do meio | 192.168.100.1 |
 | Banco de dados / VPC | 10.1.1.0/24 |
+
+## Segmentação de rede (VLANs)
+
+| VLAN | Finalidade | Quem acessa / regras | Faixa de IP |
+| --- | --- | --- | --- |
+| VLAN3 | Servidores | Hospeda servidores e aplicações | 10.0.3.0/24 |
+| VLAN5 | Colaboradores | Acessa aplicações dos servidores | 10.0.5.0/24 |
+| VLAN8 | TI | Acessa servidores e equipamentos de colaboradores por portas pré-definidas | 10.0.8.0/24 |
+| VLAN10 | IoT | Rede isolada, acessível por matriz e filial | 10.0.10.0/24 |
 
 ## Configuração dos firewalls
 
@@ -134,7 +143,7 @@ A camada de acesso da matriz foi implementada com Open vSwitch (OVS), permitindo
 | ens39 | vlan3-srv | 3 | Servidores |
 | ens40 | vlan5-colab | 5 | Colaboradores |
 | ens41 | vlan8-ti | 8 | TI |
-| ens42 | vlan10-iot | 10 | Sensores IoT |
+| ens42 | vlan10-iot | 10 | IoT / Câmera emulada |
 
 ### Objetivo
 
@@ -143,7 +152,7 @@ O switch atua como ponto de agregação da rede corporativa, separando o tráfeg
 - VLAN 3: servidores
 - VLAN 5: colaboradores
 - VLAN 8: TI
-- VLAN 10: sensores IoT
+- VLAN 10: dispositivos IoT
 
 ### Comandos utilizados
 
@@ -225,31 +234,67 @@ O anel interliga matriz, filial e nuvem. Caso um link falhe, a comunicação con
 | Protocolo de roteamento / failover | OSPF / roteamento dinâmico com redundância em anel |
 | Tempo de convergência | A definir |
 
-## IoT
+## IoT - Câmera Emulada
 
-| Sensor | Função | Onde |
-| --- | --- | --- |
-| PIR | Detecção de movimento | Matriz e filial |
-| LDR | Detecção de luminosidade | Matriz e filial |
-| Ultrassônico | Detecção de distância / presença | Matriz e filial |
+A solução de IoT utiliza uma câmera emulada executada em uma máquina virtual **Debian 12 Full CLI** (sem interface gráfica), simulando um dispositivo de vigilância corporativo.
 
-- Os sensores trafegam na VLAN10, separada da rede local
-- O alarme é acionado na matriz e na filial quando um sensor detecta evento fora do padrão
-- Os sensores são monitorados e os logs são gerenciados
+### Especificações da câmera emulada
 
 | Item | Valor |
 | --- | --- |
-| Placa / microcontrolador | A definir |
-| Protocolo de comunicação | A definir |
-| Ferramenta de monitoramento e logs | A definir |
+| Sistema Operacional | Debian 12 Full CLI |
+| Tipo de emulação | Câmera de segurança (software) |
+| Localização | VLAN10 (rede IoT) |
+| Protocolo de streaming | A definir (RTSP / HTTP / MJPEG) |
+| Monitoramento | Logs centralizados e alertas em tempo real |
+| Acesso remoto | Via interface de gerência da matriz e filial |
+
+### Configuração na VLAN10
+
+- A câmera emulada trafega na **VLAN10**, isolada da rede de usuários
+- Comunicação segura entre câmeras da matriz e filial via túnel VPN
+- Integração com sistema de monitoramento centralizado
+- Geração de logs para auditoria e análise
+
+### Instalação e ativação
+
+```bash
+# Atualizar sistema
+sudo apt update && sudo apt upgrade -y
+
+# Instalar ferramentas de emulação de câmera
+sudo apt install -y ffmpeg motion vlc-plugin-base
+
+# Configuração específica será documentada em seção separada
+```
+
+### Tarefas pendentes para câmera IoT
+
+- :memo: Definir protocolo de streaming (RTSP/HTTP/MJPEG)
+- :memo: Configurar emulação de feed de vídeo
+- :memo: Implementar sistema de alertas por movimento
+- :memo: Integrar com servidor de monitoramento centralizado
+- :memo: Configurar persistência de gravações
+
+---
+
+## Tarefas em aberto
+
+- :memo: Documentar a topologia da rede
+- :memo: Documentar as configurações dos firewalls da matriz e da filial
+- :memo: Documentar as VLANs 3, 5, 8 e 10 e quem acessa cada uma
+- :memo: Documentar as VPNs e o anel de redundância
+- :memo: Documentar a aplicação e o banco de dados na nuvem
+- :memo: Configurar câmera emulada em Debian 12 Full CLI
+- :memo: Configurar SSO e dupla autenticação
 
 ---
 
 ## Desenvolvedores/Contribuintes :octocat:
 
-| [<img src="https://github.com/JullySzztiass.png" width=115><br><sub>Jully Ferrari</sub>](https://github.com/JullySzztiass) | [<img src="https://github.com/Dedenyee.png" width=115><br><sub>Vinícius</sub>](https://github.com/Dedenyee) | [<img src="https://github.com/gluane.png" width=115><br><sub>Luane</sub>](https://github.com/gluane) | [<img src="https://github.com/isabellyyvitoria.png" width=115><br><sub>Isabelly</sub>](https://github.com/isabellyyvitoria) |
-| :---: | :---: | :---: | :---: |
-| Documentação | Servidor | Firewall | Firewall |
+| [<img src="https://github.com/JullySzztiass.png" width=115><br><sub>Jully Ferrari</sub>](https://github.com/JullySzztiass) | [<img src="https://github.com/Dedenyee.png" width=115><br><sub>Vinícius</sub>](https://github.com/Dedenyee) |
+| :---: | :---: |
+| Documentação | Infraestrutura IoT |
 
 ---
 
