@@ -244,23 +244,13 @@ O anel interliga matriz, filial e nuvem. Caso um link falhe, a comunicação con
 | Protocolo de comunicação | A definir |
 | Ferramenta de monitoramento e logs | A definir |
 
-## Tarefas em aberto
-
-- :memo: Documentar a topologia da rede
-- :memo: Documentar as configurações dos firewalls da matriz e da filial
-- :memo: Documentar as VLANs 3, 5, 8 e 10 e quem acessa cada uma
-- :memo: Documentar as VPNs e o anel de redundância
-- :memo: Documentar a aplicação e o banco de dados na nuvem
-- :memo: Documentar os sensores e o alarme
-- :memo: Configurar SSO e dupla autenticação
-
 ---
 
 ## Desenvolvedores/Contribuintes :octocat:
 
 | [<img src="https://github.com/JullySzztiass.png" width=115><br><sub>Jully Ferrari</sub>](https://github.com/JullySzztiass) | [<img src="https://github.com/Dedenyee.png" width=115><br><sub>Vinícius</sub>](https://github.com/Dedenyee) | [<img src="https://github.com/gluane.png" width=115><br><sub>Luane</sub>](https://github.com/gluane) | [<img src="https://github.com/isabellyyvitoria.png" width=115><br><sub>Isabelly</sub>](https://github.com/isabellyyvitoria) |
 | :---: | :---: | :---: | :---: |
-| Desenvolvedor | Desenvolvedor | Desenvolvedor | Desenvolvedor |
+| Documentação | Linux Server | Firewall | Firewall |
 
 ---
 
