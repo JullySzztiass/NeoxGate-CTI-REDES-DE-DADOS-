@@ -43,7 +43,7 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 
 ## Arquitetura da solução
 
-> Estrutura geral do ambiente de redes corporativas e IoT.
+> Diagrama do prototipo 1.2 - Matriz.
 
 <p align="center">
   <img src="./imagens/diagrama.jpg" alt="Diagrama da topologia de rede" width="100%" />
