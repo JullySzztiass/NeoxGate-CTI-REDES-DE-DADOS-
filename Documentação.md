@@ -30,7 +30,6 @@
 
 :small_blue_diamond: [IoT - Câmera Emulada](#iot---câmera-emulada)
 
-:small_blue_diamond: [Tarefas em aberto](#tarefas-em-aberto)
 
 </details>
 
@@ -268,27 +267,6 @@ sudo apt install -y ffmpeg motion vlc-plugin-base
 # Configuração específica será documentada em seção separada
 ```
 
-### Tarefas pendentes para câmera IoT
-
-- :memo: Definir protocolo de streaming (RTSP/HTTP/MJPEG)
-- :memo: Configurar emulação de feed de vídeo
-- :memo: Implementar sistema de alertas por movimento
-- :memo: Integrar com servidor de monitoramento centralizado
-- :memo: Configurar persistência de gravações
-
----
-
-## Tarefas em aberto
-
-- :memo: Documentar a topologia da rede
-- :memo: Documentar as configurações dos firewalls da matriz e da filial
-- :memo: Documentar as VLANs 3, 5, 8 e 10 e quem acessa cada uma
-- :memo: Documentar as VPNs e o anel de redundância
-- :memo: Documentar a aplicação e o banco de dados na nuvem
-- :memo: Configurar câmera emulada em Debian 12 Full CLI
-- :memo: Configurar SSO e dupla autenticação
-
----
 
 ## Desenvolvedores/Contribuintes :octocat:
 
