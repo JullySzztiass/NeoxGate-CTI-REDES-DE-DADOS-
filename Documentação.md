@@ -15,13 +15,21 @@
 <summary><strong>📑 Sumário</strong></summary>
 
 :small_blue_diamond: [Descrição do projeto](#descrição-do-projeto)
+
 :small_blue_diamond: [Arquitetura da solução](#arquitetura-da-solução)
+
 :small_blue_diamond: [Endereçamento da rede](#endereçamento-da-rede)
+
 :small_blue_diamond: [Segmentação de rede (VLANs)](#segmentação-de-rede-vlans)
+
 :small_blue_diamond: [Configuração dos firewalls](#configuração-dos-firewalls)
+
 :small_blue_diamond: [Configuração do switch da matriz](#configuração-do-switch-da-matriz)
+
 :small_blue_diamond: [VPNs e redundância em anel](#vpns-e-redundância-em-anel)
+
 :small_blue_diamond: [Sensores e alarme](#sensores-e-alarme)
+
 :small_blue_diamond: [Tarefas em aberto](#tarefas-em-aberto)
 
 </details>
