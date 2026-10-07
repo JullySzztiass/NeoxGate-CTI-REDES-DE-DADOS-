@@ -258,9 +258,9 @@ O anel interliga matriz, filial e nuvem. Caso um link falhe, a comunicação con
 
 ## Desenvolvedores/Contribuintes :octocat:
 
-| [<img src="https://github.com/JullySzztiass.png" width=115><br><sub>Jully Ferrari</sub>](https://github.com/JullySzztiass) | [<img src="https://github.com/Dedenyee.png" width=115><br><sub>Vinícius</sub>](https://github.com/Dedenyee) |
-| :---: | :---: |
-| Desenvolvedor | Desenvolvedor |
+| [<img src="https://github.com/JullySzztiass.png" width=115><br><sub>Jully Ferrari</sub>](https://github.com/JullySzztiass) | [<img src="https://github.com/Dedenyee.png" width=115><br><sub>Vinícius</sub>](https://github.com/Dedenyee) | [<img src="https://github.com/gluane.png" width=115><br><sub>Luane</sub>](https://github.com/gluane) | [<img src="https://github.com/isabellyyvitoria.png" width=115><br><sub>Isabelly</sub>](https://github.com/isabellyyvitoria) |
+| :---: | :---: | :---: | :---: |
+| Desenvolvedor | Desenvolvedor | Desenvolvedor | Desenvolvedor |
 
 ---
 
