@@ -20,8 +20,6 @@
 
 :small_blue_diamond: [Endereçamento da rede](#endereçamento-da-rede)
 
-:small_blue_diamond: [Segmentação de rede (VLANs)](#segmentação-de-rede-vlans)
-
 :small_blue_diamond: [Configuração dos firewalls](#configuração-dos-firewalls)
 
 :small_blue_diamond: [Configuração do switch da matriz](#configuração-do-switch-da-matriz)
@@ -96,15 +94,6 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 | --- | --- |
 | Firewall do meio | 192.168.100.1 |
 | Banco de dados / VPC | 10.1.1.0/24 |
-
-## Segmentação de rede (VLANs)
-
-| VLAN | Finalidade | Quem acessa / regras | Faixa de IP |
-| --- | --- | --- | --- |
-| VLAN3 | Servidores | Hospeda servidores e aplicações | 10.0.3.0/24 |
-| VLAN5 | Colaboradores | Acessa aplicações dos servidores | 10.0.5.0/24 |
-| VLAN8 | TI | Acessa servidores e equipamentos de colaboradores por portas pré-definidas | 10.0.8.0/24 |
-| VLAN10 | IoT | Rede isolada, acessível por matriz e filial | 10.0.10.0/24 |
 
 ## Configuração dos firewalls
 
