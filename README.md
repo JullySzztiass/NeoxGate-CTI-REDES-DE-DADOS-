@@ -30,7 +30,6 @@
 
 :small_blue_diamond: [IoT - Câmera Emulada](#iot---câmera-emulada)
 
-
 </details>
 
 ## Descrição do projeto
@@ -198,101 +197,12 @@ iface ens41 inet manual
 EOF
 ```
 
-### Explicação da configuração
-
-- `ovs-vsctl add-br br0` cria a bridge lógica do switch.
-- `ovs-vsctl add-port br0 ens37` adiciona a interface física ao switch.
-- `ovs-vsctl add-port br0 ens38 tag=3` associa a interface à VLAN 3.
-- As demais interfaces foram separadas por VLAN:
-  - ens38 -> VLAN 3
-  - ens39 -> VLAN 5
-  - ens40 -> VLAN 8
-  - ens41 -> VLAN 10
-- O arquivo `/etc/network/interfaces.d/ovs-ports` garante que as placas subam automaticamente a cada inicialização da VM.
-- O `ens37` atua como uplink sem tag (trunk) para o firewall.
-
-Essa abordagem permite a criação de um switch virtual multilayer com isolamento lógico entre os segmentos da rede, melhorando a organização, a segurança e o controle de acesso.
-
-### Verificação da funcionalidade
-
-```bash
-ovs-vsctl show
-ip link show
-ovs-vsctl list-ports br0
-```
-
-A validação pode ser feita observando se as portas físicas foram integradas ao bridge e se as VLANs foram corretamente associadas às interfaces.
-
-## Testes de funcionamento do switch
-
-Foram criadas duas VMs de teste por clones linkados, para economizar espaço em disco.
-
-| Teste | Procedimento | Resultado |
-| --- | --- | --- |
-| VLANs diferentes | Duas máquinas na mesma faixa de IP, em portas de VLANs distintas. Não se comunicaram, comprovando o isolamento. | Isolamento funcional entre segmentos, com comunicação bloqueada. |
-| Mesma VLAN | Tag de uma porta alterada para a da outra (`ovs-vsctl set port ... tag=N`). | Os hosts passaram a se comunicar na mesma VLAN, confirmando a segmentação lógica do switch. |
-
-## VPNs e redundância em anel
-
-| Túnel | Origem | Destino | Finalidade | Tipo / Protocolo |
-| --- | --- | --- | --- | --- |
-| VPN 1 | Matriz | Nuvem | Acesso ao banco de dados | IPsec / site-to-site |
-| VPN 2 | Matriz | Filial | Comunicação entre escritórios | IPsec / site-to-site |
-| VPN 3 | Filial | Nuvem | Acesso ao banco de dados | IPsec / site-to-site |
-
-### Túneis VPN
-
-- M–F: 172.31.0.0/30
-- M–N: 172.31.0.4/30
-- F–N: 172.31.0.8/30
-
-O anel interliga matriz, filial e nuvem. Caso um link falhe, a comunicação continua pelo caminho restante.
-
-| Item | Valor |
-| --- | --- |
-| Protocolo de roteamento / failover | OSPF / roteamento dinâmico com redundância em anel |
-| Tempo de convergência | A definir |
-
-## IoT - Câmera Emulada
-
-A solução de IoT utiliza uma câmera emulada executada em uma máquina virtual Debian 12 Full CLI (sem interface gráfica), simulando um dispositivo de vigilância corporativo.
-
-### Especificações da câmera emulada
-
-| Item | Valor |
-| --- | --- |
-| Sistema Operacional | Debian 12 Full CLI |
-| Tipo de emulação | Câmera de segurança (software) |
-| Localização | VLAN10 (rede IoT) |
-| Protocolo de streaming | A definir (RTSP / HTTP / MJPEG) |
-| Monitoramento | Logs centralizados e alertas em tempo real |
-| Acesso remoto | Via interface de gerência da matriz e filial |
-
-### Configuração na VLAN10
-
-- A câmera emulada trafega na VLAN10, isolada da rede de usuários
-- Comunicação segura entre câmeras da matriz e filial via túnel VPN
-- Integração com sistema de monitoramento centralizado
-- Geração de logs para auditoria e análise
-
-### Instalação e ativação
-
-```bash
-# Atualizar sistema
-sudo apt update && sudo apt upgrade -y
-
-# Instalar ferramentas de emulação de câmera
-sudo apt install -y ffmpeg motion vlc-plugin-base
-
-# Configuração específica será documentada em seção separada
-```
-
-
 ## Desenvolvedores/Contribuintes :octocat:
 
-| [<img src="https://github.com/JullySzztiass.png" width=115><br><sub>Jully Ferrari</sub>](https://github.com/JullySzztiass) | [<img src="https://github.com/Dedenyee.png" width=115><br><sub>Vinícius ...</sub>](https://github.com/Dedenyee) | [<img src="https://github.com/anthonyteles.png" width=115><br><sub>Anthony</sub>](https://github.com/anthonyteles) | [<img src="https://github.com/rodrigofalcas.png" width=115><br><sub>Rodrigo</sub>](https://github.com/rodrigofalcas) | [<img src="https://github.com/oliveira.jpeg" width=115><br><sub>Desconhecido</sub>](https://github.com/) |
+| [<img src="https://github.com/JullySzztiass.png" width=115><br><sub>Jully Ferrari</sub>](https://github.com/JullySzztiass) | [<img src="https://github.com/Dedenyee.png" width=115><br><sub>Vinícius</sub>](https://github.com/Dedenyee) | [<img src="https://github.com/isabellyyvitoria.png" width=115><br><sub>Isabelly</sub>](https://github.com/isabellyyvitoria) | [<img src="https://github.com/gluane.png" width=115><br><sub>Luane</sub>](https://github.com/gluane) | [<img src="https://github.com/kaua-brito.png" width=115><br><sub>Kaua Brito</sub>](https://github.com/kaua-brito) |
 | :---: | :---: | :---: | :---: | :---: |
 | Documentação | Servidor | Firewall | Firewall | Firewall |
+
 
 ---
 
