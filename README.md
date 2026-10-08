@@ -57,7 +57,7 @@ Objetivos:
 > Topologia inicial de requisição do projeto.
 
 <p align="center">
-  <img src="./imagens/topologia-inicial.png" alt="Topologia inicial CTI" width="100%" />
+   <img src="./imagens/Captura de tela 2026-10-07 160145.png" alt="Topologia inicial CTI" width="100%" />
 </p>
 
 > Diagrama da topologia da Matriz.
