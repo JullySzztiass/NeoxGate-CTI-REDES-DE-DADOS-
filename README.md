@@ -30,12 +30,13 @@
 
 :small_blue_diamond: [IoT - Câmera Emulada](#iot---câmera-emulada)
 
+
 </details>
 
 ## Descrição do projeto
 
 <p align="justify">
-  Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, com foco em simular um ambiente corporativo completo composto por matriz, filial e nuvem. A solução foi pensada para aplicar conceitos de rede, segurança, segmentação e redundância em um cenário realista de infraestrutura.
+  Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, com foco em simular um ambiente corporativo completo composto por matriz, filial e nuvem. A solução foi pensada para aplicar conceitos de redes, segurança e IoT em um contexto real.
 </p>
 
 O projeto tem como objetivo demonstrar como uma organização pode:
@@ -127,13 +128,13 @@ O projeto tem como objetivo demonstrar como uma organização pode:
 
 ## Configuração do switch da matriz
 
+A camada de acesso da matriz foi implementada com Open vSwitch (OVS), permitindo a criação de uma bridge lógica com segmentação por VLANs e integração com o firewall e os serviços internos.
+
 ### Preparação do ambiente virtual
 
-Foi criada uma VM com Debian 12, sem interface gráfica e com disco reduzido, para exercer a função de switch.
-
-Foram criados cinco LAN Segments, que representam os cabos de rede do ambiente: link-fw, vlan3-srv, vlan5-colab, vlan8-ti e vlan10-iot.
-
-A VM recebeu seis placas de rede, e a correspondência entre os nomes das interfaces (ens33, ens37 a ens41) e os segmentos foi conferida pelos endereços MAC.
+- Foi criada uma máquina virtual com **Debian 12**, sem interface gráfica e com disco reduzido, para exercer a função de switch.
+- Foram criados cinco **LAN Segments**, que representam os cabos de rede do ambiente: `link-fw`, `vlan3-srv`, `vlan5-colab`, `vlan8-ti` e `vlan10-iot`.
+- A VM recebeu seis placas de rede, e a correspondência entre os nomes das interfaces (`ens33`, `ens37` a `ens41`) e os segmentos foi conferida pelos **endereços MAC**.
 
 ### Topologia utilizada
 
@@ -196,6 +197,109 @@ iface ens41 inet manual
     up ip link set $IFACE up
 EOF
 ```
+
+### Explicação da configuração
+
+- `ovs-vsctl add-br br0` cria a bridge lógica do switch.
+- `ovs-vsctl add-port br0 ens37` adiciona a interface do uplink ao switch, sem tag (trunk para o firewall).
+- `ovs-vsctl add-port br0 ens38 tag=3` associa a interface à VLAN 3.
+- As demais interfaces foram separadas por VLAN:
+  - ens39 -> VLAN 5
+  - ens40 -> VLAN 8
+  - ens41 -> VLAN 10
+- O arquivo `/etc/network/interfaces.d/ovs-ports` garante que as placas subam automaticamente a cada inicialização da VM (`up ip link set $IFACE up`).
+
+Essa abordagem permite a criação de um switch virtual multilayer com isolamento lógico entre os segmentos da rede, melhorando a organização, a segurança e o controle de acesso.
+
+### Verificação da funcionalidade
+
+```bash
+ovs-vsctl show
+ip link show
+ovs-vsctl list-ports br0
+```
+
+A validação pode ser feita observando se as portas físicas foram integradas ao bridge e se as VLANs foram corretamente associadas às interfaces.
+
+## Testes de funcionamento do switch
+
+Para validar o isolamento entre as VLANs foram criadas duas VMs de teste por meio de **clones linkados**, economizando espaço em disco. Os testes realizados foram:
+
+| Teste | Procedimento | Resultado |
+| --- | --- | --- |
+| VLANs diferentes | Duas máquinas na mesma faixa de IP, conectadas a portas de VLANs distintas | Não se comunicaram, comprovando o isolamento |
+| Mesma VLAN | Tag de uma das portas alterada para a da outra (`ovs-vsctl set port <porta> tag=<vlan>`) | As máquinas passaram a se comunicar normalmente; a tag original foi restaurada em seguida |
+
+O switch foi considerado **funcional**.
+
+## VPNs e redundância em anel
+
+| Túnel | Origem | Destino | Finalidade | Tipo / Protocolo |
+| --- | --- | --- | --- | --- |
+| VPN 1 | Matriz | Nuvem | Acesso ao banco de dados | IPsec / site-to-site |
+| VPN 2 | Matriz | Filial | Comunicação entre escritórios | IPsec / site-to-site |
+| VPN 3 | Filial | Nuvem | Acesso ao banco de dados | IPsec / site-to-site |
+
+### Túneis VPN
+
+- M–F: 172.31.0.0/30
+- M–N: 172.31.0.4/30
+- F–N: 172.31.0.8/30
+
+O anel interliga matriz, filial e nuvem. Caso um link falhe, a comunicação continua pelo caminho restante.
+
+| Item | Valor |
+| --- | --- |
+| Protocolo de roteamento / failover | OSPF / roteamento dinâmico com redundância em anel |
+| Tempo de convergência | A definir |
+
+## IoT - Câmera Emulada
+
+A solução de IoT utiliza uma câmera emulada executada em uma máquina virtual **Debian 12 Full CLI** (sem interface gráfica), simulando um dispositivo de vigilância corporativo.
+
+### Especificações da câmera emulada
+
+| Item | Valor |
+| --- | --- |
+| Sistema Operacional | Debian 12 Full CLI |
+| Tipo de emulação | Câmera de segurança (software) |
+| Localização | VLAN10 (rede IoT) |
+| Endereço IP (matriz) | 10.0.10.10/24 |
+| Protocolo de streaming | A definir (RTSP / HTTP / MJPEG) |
+| Monitoramento | Logs centralizados e alertas em tempo real |
+| Acesso remoto | Via interface de gerência da matriz e filial |
+
+### Configuração na VLAN10
+
+- A câmera emulada trafega na **VLAN10**, isolada da rede de usuários
+- Comunicação segura entre câmeras da matriz e filial via túnel VPN
+- Integração com sistema de monitoramento centralizado
+- Geração de logs para auditoria e análise
+
+### Simulação inicial do dispositivo
+
+Como primeira validação, foi criada uma VM na VLAN 10 com o IP `10.0.10.10`, simulando a câmera. Um servidor web em Python foi iniciado na porta **8080** para representar o serviço da câmera:
+
+```bash
+python3 -m http.server 8080
+```
+
+O acesso foi validado por `ping` e `curl http://10.0.10.10:8080` a partir de outra máquina da mesma VLAN.
+
+Durante o processo, foram resolvidos problemas de layout de teclado e de instalação do `curl`, que exigiu ligar temporariamente a placa em NAT.
+
+### Instalação e ativação
+
+```bash
+# Atualizar sistema
+sudo apt update && sudo apt upgrade -y
+
+# Instalar ferramentas de emulação de câmera
+sudo apt install -y ffmpeg motion vlc-plugin-base
+
+# Configuração específica será documentada em seção separada
+```
+
 
 ## Desenvolvedores/Contribuintes :octocat:
 
