@@ -57,7 +57,7 @@ Objetivos:
 > Topologia inicial de requisição do projeto.
 
 <p align="center">
-   <img src="./imagens/Captura de tela 2026-10-07 160145.png" alt="Topologia inicial CTI" width="100%" />
+  <img src="./imagens/topologia-inicial.png" alt="Topologia inicial CTI" width="100%" />
 </p>
 
 > Diagrama da topologia da Matriz.
@@ -204,7 +204,33 @@ Rotas de apoio: no servidor, `ip route add 10.0.10.0/24 via 10.0.3.1`; na câmer
 
 ## Firewalls
 
-**Status: não iniciado.** Modelo e marca ainda não definidos.
+**Status: em andamento.** Equipamento da matriz conferido e com saída para a internet; segmentação por VLAN, regras e VPNs pendentes.
+
+### Firewall da matriz: estado atual
+
+Verificado em 19/10/2026.
+
+| Item | Valor |
+| --- | --- |
+| Modelo | FortiGate 40F |
+| Versão | FortiOS 7.4.12 (build 2902) |
+| VDOM | NEOXGATE |
+| WAN (`lan2`) | 172.16.33.35/24, saída para a internet |
+| LAN (`lan1`) | 192.168.200.1/24, rede interna |
+| DHCP (LAN) | 192.168.200.2 a 192.168.200.254 |
+| Rota padrão | 0.0.0.0/0 via 172.16.33.254, interface `lan2` |
+
+Testes de conectividade pelo CLI Console:
+
+| Teste | Resultado |
+| --- | --- |
+| Ping para o gateway 172.16.33.254 | Sucesso |
+| Ping para 8.8.8.8 | Sucesso |
+| Ping para `google.com` | Falha na resolução de nome |
+
+A configuração de DNS ainda não foi confirmada (ver [Pendências](#pendências)).
+
+### Função prevista
 
 | Firewall | Função prevista |
 | --- | --- |
@@ -267,7 +293,9 @@ Câmeras da matriz e da filial devem se comunicar pela VPN, e os logs devem ir a
 - Desativar a placa NAT (`ens33`) antes da entrega.
 
 **Firewalls**
-- Definir marca/modelo, VDOMs e subinterfaces; implementar as regras previstas.
+- Verificar a configuração de DNS do FortiGate (o ping para 8.8.8.8 funciona, mas `google.com` não resolve) e repetir o teste.
+- Criar as subinterfaces 802.1Q das VLANs 3, 5, 8 e 10 no uplink do switch e implementar as regras previstas.
+- Alinhar o endereçamento da LAN (`lan1`: 192.168.200.1/24) com o plano das VLANs (10.0.x.0/24) e com o IP de gerência 192.168.100.10.
 - Confirmar a máscara (/24) e a interface dos IPs de gerência.
 - Definir o papel do firewall do meio (interconexão/internet simulada).
 - Retirar a Bridge temporária do SRV-LINUX e o roteamento provisório do switch.
@@ -302,7 +330,7 @@ Câmeras da matriz e da filial devem se comunicar pela VPN, e os logs devem ir a
 
 | [<img src="https://github.com/JullySzztiass.png" width=115><br><sub>Jully Ferrari</sub>](https://github.com/JullySzztiass) | [<img src="https://github.com/Dedenyee.png" width=115><br><sub>Vinícius</sub>](https://github.com/Dedenyee) | [<img src="https://github.com/isabellyyvitoria.png" width=115><br><sub>Isabelly</sub>](https://github.com/isabellyyvitoria) | [<img src="https://github.com/gluane.png" width=115><br><sub>Luane</sub>](https://github.com/gluane) | [<img src="https://github.com/kaua-brito.png" width=115><br><sub>Kaua Brito</sub>](https://github.com/kaua-brito) |
 | :---: | :---: | :---: | :---: | :---: |
-| Documentação | Servidor | Firewall | Firewall | Switch - IoT |
+| Documentação | Servidor | Firewall | Firewall | Firewall |
 
 ---
 
