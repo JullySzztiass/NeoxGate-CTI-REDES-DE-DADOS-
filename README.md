@@ -9,7 +9,7 @@
   <img src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=RED&style=for-the-badge"/>
 </p>
 
-> Status do projeto: :warning: em desenvolvimento. Cada seção indica o que está **implementado** e o que está **planejado**; o consolidado está em [Pendências](#pendências).
+> Status do projeto: :warning: em desenvolvimento
 
 <details open>
 <summary><strong>SUMÁRIO</strong></summary>
@@ -20,323 +20,355 @@
 
 :small_blue_diamond: [Endereçamento da rede](#endereçamento-da-rede)
 
-:small_blue_diamond: [Switch da matriz](#switch-da-matriz)
+:small_blue_diamond: [Configuração dos firewalls](#configuração-dos-firewalls)
 
-:small_blue_diamond: [Firewalls](#firewalls)
+:small_blue_diamond: [Configuração do switch da matriz](#configuração-do-switch-da-matriz)
+
+:small_blue_diamond: [Configuração do switch da filial](#configuração-do-switch-da-filial)
 
 :small_blue_diamond: [VPNs e redundância em anel](#vpns-e-redundância-em-anel)
 
-:small_blue_diamond: [IoT - Câmera emulada](#iot---câmera-emulada)
-
-:small_blue_diamond: [Servidor de monitoramento e logs](#servidor-de-monitoramento-e-logs)
+:small_blue_diamond: [IoT - Câmera Emulada](#iot---câmera-emulada)
 
 :small_blue_diamond: [Pendências](#pendências)
-
-:small_blue_diamond: [Desenvolvedores/Contribuintes](#desenvolvedorescontribuintes-octocat)
-
-:small_blue_diamond: [Licença](#licença)
 
 </details>
 
 ## Descrição do projeto
 
 <p align="justify">
-  Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, que simula um ambiente corporativo composto por matriz, filial e nuvem, aplicando conceitos de redes, segurança e IoT.
+  Projeto desenvolvido na Tutoria 2026, em parceria entre SENAI e CTI, com foco em simular um ambiente corporativo completo composto por matriz, filial e nuvem. A solução foi pensada para aplicar conceitos de redes, segurança e IoT em um contexto real.
 </p>
 
-Objetivos:
+O projeto tem como objetivo demonstrar como uma organização pode:
 
 - segmentar a rede em VLANs por função
-- controlar o acesso por firewalls
-- conectar os sites por VPNs, com redundância em anel
-- isolar dispositivos IoT (câmera emulada)
-- integrar aplicações corporativas a um banco de dados em nuvem
+- controlar acesso por firewalls
+- conectar escritórios por VPNs seguras
+- manter redundância para continuidade do serviço
+- proteger o ambiente de dispositivos IoT
+- integrar aplicações corporativas com banco de dados em nuvem
 
 ## Arquitetura da solução
 
 > Topologia inicial de requisição do projeto.
 
 <p align="center">
-  <img src="./imagens/topologia-inicial.png" alt="Topologia inicial CTI" width="100%" />
-</p>
+  <img src="./imagens/Captura de tela 2026-10-07 160145.png" alt="Topologia inicial CTI" width="100%" />
+</p> 
 
-> Diagrama da topologia da Matriz.
+> Diagrama do protótipo 1.2 - Matriz.
 
 <p align="center">
   <img src="./imagens/diagrama.jpg" alt="Diagrama da topologia de rede" width="100%" />
 </p>
 
+### Componentes da topologia
+
 | Local | Componentes | Detalhes |
 | --- | --- | --- |
-| Matriz | Firewall, switch, servidor de aplicação, servidor Windows, PCs de colaboradores e TI, câmera IoT | Rede principal e acesso à nuvem |
-| Filial | Firewall, switch, PCs (3 usuários), câmera IoT | Escritório local, conectado à matriz por VPN |
-| Nuvem | Banco de dados (AWS ou Azure) | Dados centralizados |
+| Matriz | FortiGate 40F, switch (Open vSwitch), servidor de aplicação, servidor Windows, PCs de colaboradores e TI, câmera IoT | Rede principal da empresa e acesso à nuvem |
+| Filial | Firewall, switch Cisco Catalyst 2960-S, PCs (3 usuários), câmera IoT | Escritório local com comunicação segura com matriz |
+| Nuvem | Banco de dados em AWS/Azure | Infraestrutura centralizada para dados e serviços |
 
 ## Endereçamento da rede
 
-Convenção: `10.0.x.0` para a matriz e `10.1.x.0` para a filial.
-
-### Matriz
+### Rede matriz
 
 | Elemento | Endereço |
 | --- | --- |
-| VLAN 3 - Servidores | 10.0.3.0/24 |
-| VLAN 5 - Colaboradores | 10.0.5.0/24 |
-| VLAN 8 - TI | 10.0.8.0/24 |
-| VLAN 10 - IoT | 10.0.10.0/24 |
-| Gateway das VLANs | `.1` de cada faixa (firewall) |
-| Firewall da matriz (gerência) | 192.168.100.10/24 |
+| VLAN3 - Servidores | 10.0.3.0/24 |
+| VLAN5 - Colaboradores | 10.0.5.0/24 |
+| VLAN8 - TI | 10.0.8.0/24 |
+| VLAN10 - IoT | 10.0.10.0/24 |
+| Firewall da matriz | 192.168.100.10 |
 
-### Filial
-
-| Elemento | Endereço |
-| --- | --- |
-| VLAN 5 - PCs | 10.1.5.0/24 |
-| VLAN 10 - IoT | 10.1.10.0/24 |
-| Firewall da filial (gerência) | 192.168.100.20/24 |
-
-### Interconexão e nuvem
+### Rede filial
 
 | Elemento | Endereço |
 | --- | --- |
-| Firewall do meio | 192.168.100.1/24 |
+| VLAN10 - IoT | 10.1.10.0/24 |
+| PCs | 10.1.5.0/24 |
+| Firewall da filial | 192.168.100.20 |
+
+### Interconexão e infraestrutura de suporte
+
+| Elemento | Endereço |
+| --- | --- |
+| Firewall do meio | 192.168.100.1 |
 | Banco de dados / VPC | 10.1.1.0/24 |
-| Túnel Matriz–Filial | 172.31.0.0/30 |
-| Túnel Matriz–Nuvem | 172.31.0.4/30 |
-| Túnel Filial–Nuvem | 172.31.0.8/30 |
 
-## Switch da matriz
+## Configuração dos firewalls
 
-**Status: implementado e testado.**
+### Firewall da matriz
 
-O switch é uma VM Debian 12 (sem interface gráfica, disco reduzido) com Open vSwitch, rodando em VMware Workstation. Atua apenas na **camada 2**: segmenta por VLAN e delega o roteamento entre elas ao firewall.
-
-Cada **LAN Segment** do VMware representa um cabo de rede. A VM tem seis placas, e a correspondência entre interface e segmento foi conferida pelo endereço MAC.
-
-| Interface | Segmento | VLAN | Função |
-| --- | --- | --- | --- |
-| ens33 | NAT | - | Gerência e instalação de pacotes (temporária) |
-| ens37 | link-fw | trunk | Uplink para o firewall: todas as VLANs com tag 802.1Q |
-| ens38 | vlan3-srv | 3 | Servidores |
-| ens39 | vlan5-colab | 5 | Colaboradores |
-| ens40 | vlan8-ti | 8 | TI |
-| ens41 | vlan10-iot | 10 | IoT / câmera emulada |
-
-### Configuração
-
-```bash
-su -
-apt update && apt install -y openvswitch-switch
-ovs-vsctl add-br br0
-
-ovs-vsctl add-port br0 ens37              # uplink: trunk
-ovs-vsctl add-port br0 ens38 tag=3
-ovs-vsctl add-port br0 ens39 tag=5
-ovs-vsctl add-port br0 ens40 tag=8
-ovs-vsctl add-port br0 ens41 tag=10
-
-# Sobe as placas agora e gera o arquivo que as sobe a cada boot
-for i in ens37 ens38 ens39 ens40 ens41; do
-    ip link set $i up
-    printf 'auto %s\niface %s inet manual\n    up ip link set $IFACE up\n\n' "$i" "$i"
-done > /etc/network/interfaces.d/ovs-ports
-```
-
-A configuração do OVS persiste no próprio banco do serviço (ovsdb). O arquivo `ovs-ports` serve apenas para as interfaces subirem na inicialização.
-
-### Verificação
-
-```bash
-ovs-vsctl show             # bridge, portas e tags
-ovs-appctl fdb/show br0    # MACs aprendidos por VLAN
-```
-
-Saída esperada de `ovs-vsctl show` (resumida):
-
-```
-Bridge br0
-    Port ens37
-        Interface ens37
-    Port ens38
-        tag: 3
-        Interface ens38
-    Port ens39
-        tag: 5
-    ...
-```
-
-### Testes de isolamento
-
-Duas VMs de teste foram criadas por clones linkados, para economizar disco.
-
-| Teste | Procedimento | Resultado |
-| --- | --- | --- |
-| VLANs diferentes | Mesma faixa de IP, em portas de VLANs distintas | Sem comunicação: isolamento confirmado |
-| Mesma VLAN | Tag de uma porta alterada com `ovs-vsctl set port <porta> tag=<vlan>` | Comunicação normal; tag original restaurada |
-
-O teste do uplink com o firewall depende do firewall e está em [Pendências](#pendências).
-
-### Roteamento provisório
-
-Enquanto o firewall não existe, o próprio switch roteia entre as VLANs 3 e 10 por duas portas internas, usando os gateways que o firewall assumirá:
-
-```bash
-ovs-vsctl --may-exist add-port br0 gw3 tag=3 -- set interface gw3 type=internal
-ovs-vsctl --may-exist add-port br0 gw10 tag=10 -- set interface gw10 type=internal
-ip addr add 10.0.3.1/24 dev gw3
-ip addr add 10.0.10.1/24 dev gw10
-ip link set gw3 up
-ip link set gw10 up
-echo 1 > /proc/sys/net/ipv4/ip_forward
-```
-
-- Não persiste após reinício do switch; o bloco deve ser executado novamente.
-- Não há filtragem: **as VLANs 3 e 10 se comunicam livremente**. O isolamento entre elas só volta com as regras do firewall.
-- Quando o firewall assumir `10.0.3.1` e `10.0.10.1`:
-
-```bash
-ovs-vsctl del-port br0 gw3
-ovs-vsctl del-port br0 gw10
-echo 0 > /proc/sys/net/ipv4/ip_forward
-```
-
-Rotas de apoio: no servidor, `ip route add 10.0.10.0/24 via 10.0.3.1`; na câmera, rota para `10.0.3.0/24` via `10.0.10.1`.
-
-## Firewalls
-
-**Status: em andamento.** Equipamento da matriz conferido e com saída para a internet; segmentação por VLAN, regras e VPNs pendentes.
-
-### Firewall da matriz: estado atual
-
-Verificado em 19/10/2026.
+- Controle de acesso à internet e à nuvem
+- Bloqueio de tráfego entre PCs da matriz e da filial
+- Liberação das VLANs conforme a regra de segmentação
+- Terminação das VPNs da nuvem e da filial
+- Saída de internet da filial
 
 | Item | Valor |
 | --- | --- |
-| Modelo | FortiGate 40F |
-| Versão | FortiOS 7.4.12 (build 2902) |
+| Marca / Modelo | Fortinet FortiGate 40F |
+| Sistema operacional | FortiOS 7.4.12 (build 2902) |
 | VDOM | NEOXGATE |
-| WAN (`lan2`) | 172.16.33.35/24, saída para a internet |
-| LAN (`lan1`) | 192.168.200.1/24, rede interna |
-| DHCP (LAN) | 192.168.200.2 a 192.168.200.254 |
-| Rota padrão | 0.0.0.0/0 via 172.16.33.254, interface `lan2` |
+| IP de gerência | 192.168.100.10 |
+| Regras implementadas | ACLs para VLAN3, VLAN5, VLAN8, VLAN10, acesso à internet e VPN |
 
-Testes de conectividade pelo CLI Console:
+#### Verificação inicial (21/10/2026)
+
+Conferência do equipamento e da conectividade pelo CLI Console.
+
+**Interfaces**
+
+| Interface | Função | Endereço |
+| --- | --- | --- |
+| lan2 | WAN (saída para a internet) | 172.16.33.35/24 |
+| lan1 | LAN (rede interna) | 192.168.200.1/24 |
+
+**DHCP (lan1):** faixa de 192.168.200.2 a 192.168.200.254.
+
+**Rota padrão**
+
+| Destino | Gateway | Interface de saída |
+| --- | --- | --- |
+| 0.0.0.0/0 | 172.16.33.254 | lan2 (WAN) |
+
+**Testes de conectividade**
 
 | Teste | Resultado |
 | --- | --- |
 | Ping para o gateway 172.16.33.254 | Sucesso |
 | Ping para 8.8.8.8 | Sucesso |
-| Ping para `google.com` | Falha na resolução de nome |
+| Ping para google.com | Falha na resolução de nome |
 
-A configuração de DNS ainda não foi confirmada (ver [Pendências](#pendências)).
+A conectividade IP com a internet está funcionando. A falha na resolução de nome indica problema de DNS, que ainda não foi confirmado: os comandos de consulta ao DNS retornaram erro no CLI e a configuração atual não pôde ser lida. A verificação será refeita na segunda-feira.
 
-### Função prevista
+### Firewall da filial
 
-| Firewall | Função prevista |
-| --- | --- |
-| Matriz | Subinterfaces 802.1Q por VLAN (3, 5, 8, 10) no uplink do switch; controle de acesso à internet e à nuvem; terminação das VPNs com a nuvem e a filial; saída de internet da filial |
-| Filial | Controle de acesso à internet e à nuvem; navegação encaminhada pela matriz; terminação das VPNs com a nuvem e a matriz |
-
-Regras previstas:
-
-| Origem | Destino | Ação |
-| --- | --- | --- |
-| VLAN 10 (IoT) | 10.0.3.20 (servidor de logs), 514/UDP | Permitir |
-| VLAN 10 (IoT) | Demais destinos | Negar |
-| PCs da matriz | PCs da filial (e vice-versa) | Negar |
-
-## VPNs e redundância em anel
-
-**Status: planejado.**
-
-| Túnel | Origem | Destino | Finalidade | Rede do túnel |
-| --- | --- | --- | --- | --- |
-| VPN 1 | Matriz | Nuvem | Acesso ao banco de dados | 172.31.0.4/30 |
-| VPN 2 | Matriz | Filial | Comunicação entre escritórios | 172.31.0.0/30 |
-| VPN 3 | Filial | Nuvem | Acesso ao banco de dados | 172.31.0.8/30 |
-
-Os três túneis (IPsec site-to-site) formam um anel entre matriz, filial e nuvem: se um link falhar, o tráfego segue pelo caminho restante. O protocolo de roteamento e o método de túnel dependem do provedor de nuvem escolhido e estão em [Pendências](#pendências).
-
-## IoT - Câmera emulada
-
-**Status: placeholder implementado; streaming real pendente.**
-
-A câmera é emulada por uma VM Debian 12 (CLI) na VLAN 10, isolada da rede de usuários.
+- Controle de acesso à internet e à nuvem
+- Navegação encaminhada pela matriz
+- Bloqueio de tráfego entre PCs da filial e da matriz
+- Terminação das VPNs da nuvem e da matriz
 
 | Item | Valor |
 | --- | --- |
-| IP na matriz | 10.0.10.10/24 |
-| IP na filial | A definir (faixa 10.1.10.0/24) |
-| Gateway | 10.0.10.1 |
-| Serviço atual | `python3 -m http.server 8080` (placeholder) |
-| Protocolo de streaming | A definir (RTSP, HTTP ou MJPEG) |
+| Marca / Modelo | A definir |
+| IP de gerência | 192.168.100.20 |
+| Regras implementadas | ACLs para VLAN10, PCs, acesso à matriz e à nuvem via VPN |
 
-O servidor Python representa o serviço da câmera. A validação foi feita com `ping` e `curl http://10.0.10.10:8080` a partir de outra máquina da VLAN 10. A instalação do `curl` exigiu ligar uma placa NAT temporária, depois desligada.
+## Configuração do switch da matriz
 
-Câmeras da matriz e da filial devem se comunicar pela VPN, e os logs devem ir ao servidor central (ver abaixo).
+A camada de acesso da matriz foi implementada com Open vSwitch (OVS), permitindo a criação de uma bridge lógica com segmentação por VLANs e integração com o firewall e os serviços internos.
 
-## Servidor de monitoramento e logs
+### Topologia utilizada
 
-**SRV-LINUX** (Debian 12), `10.0.3.20/24`, VLAN 3.
+| Interface | Segmento | VLAN | Função |
+| --- | --- | --- | --- |
+| ens37 | NAT | - | Acesso externo / internet |
+| ens38 | link-fw | trunk | Uplink com o firewall |
+| ens39 | vlan3-srv | 3 | Servidores |
+| ens40 | vlan5-colab | 5 | Colaboradores |
+| ens41 | vlan8-ti | 8 | TI |
+| ens42 | vlan10-iot | 10 | IoT / Câmera emulada |
 
-| Serviço | Status |
+### Objetivo
+
+O switch atua como ponto de agregação da rede corporativa, separando o tráfego por função e mantendo o ambiente controlado:
+
+- VLAN 3: servidores
+- VLAN 5: colaboradores
+- VLAN 8: TI
+- VLAN 10: dispositivos IoT
+
+### Comandos utilizados
+
+```bash
+su -
+
+apt update
+apt install openvswitch-switch
+ovs-vsctl add-br br0
+
+ovs-vsctl add-port br0 ens37
+ovs-vsctl add-port br0 ens38
+ovs-vsctl add-port br0 ens39 tag=3
+ovs-vsctl add-port br0 ens40 tag=5
+ovs-vsctl add-port br0 ens41 tag=8
+ovs-vsctl add-port br0 ens42 tag=10
+
+for i in ens37 ens38 ens39 ens40 ens41 ens42; do
+    ip link set $i up
+done
+
+cat > /etc/network/interfaces.d/ovs-ports << 'EOF'
+auto ens37
+iface ens37 inet manual
+
+auto ens38
+iface ens38 inet manual
+
+auto ens39
+iface ens39 inet manual
+
+auto ens40
+iface ens40 inet manual
+
+auto ens41
+iface ens41 inet manual
+
+auto ens42
+iface ens42 inet manual
+EOF
+```
+
+### Explicação da configuração
+
+- `ovs-vsctl add-br br0` cria a bridge lógica do switch.
+- `ovs-vsctl add-port br0 ens37` adiciona a interface de acesso externo (NAT) ao switch.
+- `ovs-vsctl add-port br0 ens38` adiciona o uplink para o firewall sem tag, funcionando como trunk.
+- As demais interfaces foram separadas por VLAN:
+  - ens39 -> VLAN 3
+  - ens40 -> VLAN 5
+  - ens41 -> VLAN 8
+  - ens42 -> VLAN 10
+
+Essa abordagem permite a criação de um switch virtual multilayer com isolamento lógico entre os segmentos da rede, melhorando a organização, a segurança e o controle de acesso.
+
+### Verificação da funcionalidade
+
+```bash
+ovs-vsctl show
+ip link show
+ovs-vsctl list-ports br0
+```
+
+A validação pode ser feita observando se as portas físicas foram integradas ao bridge e se as VLANs foram corretamente associadas às interfaces.
+
+## Configuração do switch da filial
+
+O acesso da filial utiliza um switch Cisco Catalyst 2960-S. A configuração inicial já foi aplicada, mas é **provisória**: as conexões e as VLANs ainda precisam ser validadas antes de o equipamento ser considerado pronto para uso.
+
+| Item | Valor |
 | --- | --- |
-| Zabbix 7.0 (server, frontend, MariaDB, Apache) e Zabbix Agent 2 | Instalado; interface em `http://10.0.3.20/zabbix` |
-| Syslog central (rsyslog, 514/UDP e TCP) | Pendente |
-| Monitoramento da câmera (ping e porta 8080) e envio de logs | Pendente |
+| Marca / Modelo | Cisco Catalyst 2960-S |
+| Hostname | SW-FILIAL-CTI |
+| Acesso de gerência | Console, com usuário local `admin` |
+| Status | Configuração inicial provisória |
+
+### O que foi configurado
+
+| Item | Configuração |
+| --- | --- |
+| Identificação | Hostname `SW-FILIAL-CTI` |
+| Acesso privilegiado | Senha de enable definida |
+| Autenticação | Usuário local `admin` e login local no console |
+| Senhas | Criptografia de senhas ativada na configuração |
+| Banner | Banner de acesso restrito |
+| Console | Timeout de inatividade de 5 minutos |
+| VLAN | VLAN 10 criada com o nome `IOT2`, ainda sem portas atribuídas |
+
+### Portas
+
+| Portas | Estado | Observação |
+| --- | --- | --- |
+| Gi1/0/1 a Gi1/0/5 | Disponíveis | Função de cada porta ainda a definir |
+| Gi1/0/6 a Gi1/0/48 | Desativadas (`shutdown`) | Portas não utilizadas |
+| Te1/0/1 e Te1/0/2 | Sem alteração | Portas de 10 Gb |
+| Fa0 | Sem alteração | Porta de gerenciamento |
+
+As portas não utilizadas permanecem desativadas administrativamente para reduzir a superfície de acesso à rede.
+
+### Etapas restantes
+
+- Definir a função de cada uma das cinco portas disponíveis
+- Definir a VLAN dos computadores da filial e a separação da rede IoT
+- Configurar a conexão entre o switch e o firewall da filial
+- Decidir sobre o acesso remoto por SSH
+- Conferir a configuração e salvá-la
+
+## VPNs e redundância em anel
+
+| Túnel | Origem | Destino | Finalidade | Tipo / Protocolo |
+| --- | --- | --- | --- | --- |
+| VPN 1 | Matriz | Nuvem | Acesso ao banco de dados | IPsec / site-to-site |
+| VPN 2 | Matriz | Filial | Comunicação entre escritórios | IPsec / site-to-site |
+| VPN 3 | Filial | Nuvem | Acesso ao banco de dados | IPsec / site-to-site |
+
+### Túneis VPN
+
+- M–F: 172.31.0.0/30
+- M–N: 172.31.0.4/30
+- F–N: 172.31.0.8/30
+
+O anel interliga matriz, filial e nuvem. Caso um link falhe, a comunicação continua pelo caminho restante.
+
+| Item | Valor |
+| --- | --- |
+| Protocolo de roteamento / failover | OSPF / roteamento dinâmico com redundância em anel |
+| Tempo de convergência | A definir |
+
+## IoT - Câmera Emulada
+
+A solução de IoT utiliza uma câmera emulada executada em uma máquina virtual **Debian 12 Full CLI** (sem interface gráfica), simulando um dispositivo de vigilância corporativo.
+
+### Especificações da câmera emulada
+
+| Item | Valor |
+| --- | --- |
+| Sistema Operacional | Debian 12 Full CLI |
+| Tipo de emulação | Câmera de segurança (software) |
+| Localização | VLAN10 (rede IoT) |
+| Protocolo de streaming | A definir (RTSP / HTTP / MJPEG) |
+| Monitoramento | Logs centralizados e alertas em tempo real |
+| Acesso remoto | Via interface de gerência da matriz e filial |
+
+### Configuração na VLAN10
+
+- A câmera emulada trafega na **VLAN10**, isolada da rede de usuários
+- Comunicação segura entre câmeras da matriz e filial via túnel VPN
+- Integração com sistema de monitoramento centralizado
+- Geração de logs para auditoria e análise
+
+### Instalação e ativação
+
+```bash
+# Atualizar sistema
+sudo apt update && sudo apt upgrade -y
+
+# Instalar ferramentas de emulação de câmera
+sudo apt install -y ffmpeg motion vlc-plugin-base
+
+# Configuração específica será documentada em seção separada
+```
 
 ## Pendências
 
-**Switch**
-- Limitar o trunk do uplink: `ovs-vsctl set port ens37 trunks=3,5,8,10`.
-- Testar o uplink com o firewall.
-- Desativar a placa NAT (`ens33`) antes da entrega.
-
-**Firewalls**
-- Verificar a configuração de DNS do FortiGate (o ping para 8.8.8.8 funciona, mas `google.com` não resolve) e repetir o teste.
-- Criar as subinterfaces 802.1Q das VLANs 3, 5, 8 e 10 no uplink do switch e implementar as regras previstas.
-- Alinhar o endereçamento da LAN (`lan1`: 192.168.200.1/24) com o plano das VLANs (10.0.x.0/24) e com o IP de gerência 192.168.100.10.
-- Confirmar a máscara (/24) e a interface dos IPs de gerência.
-- Definir o papel do firewall do meio (interconexão/internet simulada).
-- Retirar a Bridge temporária do SRV-LINUX e o roteamento provisório do switch.
-
-**VPN e nuvem**
-- Definir o provedor (AWS ou Azure) e o banco.
-- Definir roteamento do anel: VPNs gerenciadas de nuvem usam BGP; OSPF exigiria túneis baseados em rota (VTI/GRE). Alternativa: rotas estáticas com failover.
-- Definir o que a VPN 2 permite, já que PCs de matriz e filial são isolados entre si.
-- Listar o IP de cada ponta dos túneis.
-- Avaliar mover a VPC para fora do bloco da filial (`10.1.x.x`), por exemplo `10.2.1.0/24`.
-- Medir o tempo de convergência.
-- Mover a aplicação para o banco na nuvem.
-
-**IoT (câmera emulada)**
-- Definir o protocolo de streaming e configurar `ffmpeg`/`motion`.
-- Criar a câmera da filial e definir seu IP.
-- Implementar syslog central e envio de logs da câmera; monitorá-la no Zabbix.
-
-**Demais componentes**
-- Servidor Windows (AD), acesso remoto com SSO e dupla autenticação, controle de dispositivos autorizados.
-- Servidor de aplicação e PCs.
-- Filial completa e navegação da filial pelo firewall da matriz.
-- Monitorar switch e firewall por SNMP no Zabbix.
-
-**Segurança (antes da entrega)**
-- Trocar as senhas de teste (MariaDB, `Admin` do Zabbix).
-- Restringir a interface do Zabbix à VLAN 8 e ao próprio servidor, após o firewall existir.
-- Confirmar o uso de HTTP ou HTTPS no Zabbix.
-- A aplicação não tem login: os logs registram só o IP de origem. Avaliar o impacto na LGPD.
+| Item | Responsável | Situação |
+| --- | --- | --- |
+| Verificar a configuração de DNS do FortiGate da matriz | Firewall | Pendente (nova tentativa na segunda-feira) |
+| Definir marca/modelo do firewall da filial | Firewall | Pendente |
+| Definir função das portas Gi1/0/1 a Gi1/0/5 do switch da filial | Switch & IoT | Pendente |
+| Definir VLAN dos PCs da filial e separação da rede IoT | Switch & IoT | Pendente |
+| Configurar o link entre o switch e o firewall da filial | Switch & IoT / Firewall | Pendente |
+| Decidir sobre acesso remoto por SSH no switch da filial | Switch & IoT | Pendente |
+| Conferir e salvar a configuração do switch da filial | Switch & IoT | Pendente |
+| Definir protocolo de streaming da câmera emulada | Switch & IoT | Pendente |
+| Definir tempo de convergência do anel | Firewall | Pendente |
 
 ## Desenvolvedores/Contribuintes :octocat:
 
 | [<img src="https://github.com/JullySzztiass.png" width=115><br><sub>Jully Ferrari</sub>](https://github.com/JullySzztiass) | [<img src="https://github.com/Dedenyee.png" width=115><br><sub>Vinícius</sub>](https://github.com/Dedenyee) | [<img src="https://github.com/isabellyyvitoria.png" width=115><br><sub>Isabelly</sub>](https://github.com/isabellyyvitoria) | [<img src="https://github.com/gluane.png" width=115><br><sub>Luane</sub>](https://github.com/gluane) | [<img src="https://github.com/kaua-brito.png" width=115><br><sub>Kaua Brito</sub>](https://github.com/kaua-brito) |
 | :---: | :---: | :---: | :---: | :---: |
-| Documentação | Servidor | Firewall | Firewall | Firewall |
+| Documentação | Servidor | Firewall | Firewall | Switch & IoT |
+
 
 ---
 
 ## Licença
 
-[MIT License](./LICENSE)
+The [MIT License]() (MIT)
 
 Copyright :copyright: 2026 - Projeto Rede de Dados (SENAI e CTI)
 
