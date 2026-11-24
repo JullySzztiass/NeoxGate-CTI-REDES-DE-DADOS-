@@ -5,8 +5,8 @@
 - Mosquitto sem acesso anônimo, com permissões separadas para o sensor (só publica) e para a ponte (só lê).
 - Credenciais da ponte em arquivo com permissão restrita, fora do script.
 - Aplicação liberada somente para as VLANs 5 e 8.
-- IoT em VLAN própria, alcançando o servidor apenas em 1883/TCP e 514/UDP.
-- Segmentação por VLAN com regras entre elas no firewall da matriz ([políticas](rede-firewall-vpn.md#políticas-do-firewall-da-matriz)).
+- IoT em VLAN própria, alcançando o servidor apenas em 1883/TCP e 514/UDP (mais PING).
+- Segmentação por VLAN com regras entre elas no firewall da matriz ([políticas](06-firewalls.md#políticas-de-firewall)).
 - Nenhuma política liga os PCs da matriz aos PCs da filial; só servidores e IoT atravessam os túneis.
 
 ## Limitações a documentar
@@ -19,7 +19,7 @@ Devem constar na entrega final.
 | A senha do MQTT aparece na lista de processos (`ps`) enquanto a ponte e o emulador rodam | Exposição a quem tem acesso ao servidor |
 | Acesso ao console do ESXi e ao menu de boot (GRUB) das VMs dá controle total sobre elas | O acesso ao ESXi precisa ser restrito |
 | Disco do servidor em RAID 0 | Sem redundância: manter cópias das VMs fora do servidor |
-| Criptografia DES nos túneis do laboratório | Ver [diferenças em relação à produção](rede-firewall-vpn.md#diferenças-em-relação-ao-ambiente-de-produção) |
+| Criptografia DES nos túneis do laboratório | Ver [diferenças em relação à produção](07-vpn.md#diferenças-entre-laboratório-e-produção) |
 
 ## Checklist antes da entrega
 

@@ -1,16 +1,51 @@
-# Projeto Rede de Dados
+<h1 align="center">Projeto Rede de Dados</h1>
 
-Projeto final do curso do **SENAI**, desenvolvido em parceria com a **CTI** (Tutoria 2026). O objetivo é reproduzir um ambiente corporativo com matriz, filial e nuvem, cobrindo VLANs, firewalls, VPN em anel, IoT, aplicação com banco na nuvem e monitoramento.
+<p align="center"><strong>Tutoria 2026 · SENAI × CTI</strong></p>
 
-## Visão geral
+<p align="center">
+  <img src="https://img.shields.io/static/v1?label=Firewall&message=seguranca&color=red&style=for-the-badge"/>
+  <img src="https://img.shields.io/static/v1?label=VPN&message=anel%20redundante&color=blue&style=for-the-badge"/>
+  <img src="https://img.shields.io/static/v1?label=Cloud&message=AWS&color=orange&style=for-the-badge&logo=amazonaws"/>
+  <img src="https://img.shields.io/static/v1?label=IoT&message=Dispositivo%20Emulado&color=green&style=for-the-badge"/>
+  <img src="https://img.shields.io/static/v1?label=Monitoramento&message=Zabbix&color=darkred&style=for-the-badge"/>
+  <img src="https://img.shields.io/static/v1?label=License&message=MIT&color=green&style=for-the-badge"/>
+  <img src="https://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=RED&style=for-the-badge"/>
+</p>
 
-```mermaid
-graph LR
-    FIL["Filial<br/>10.1.5.0/24 PCs · 10.1.10.0/24 IoT"] -->|VPN-FIL-MEIO| MEIO["Firewall do meio"]
-    MEIO -->|VPN-MTZ-MEIO| MTZ["Matriz<br/>VLANs 3, 5, 8 e 10"]
-    MTZ -->|VPN| NUV[("Banco de dados<br/>nuvem AWS")]
-    NUV -->|VPN| FIL
-```
+<p align="center">
+  <a href="#descrição">Descrição</a> ·
+  <a href="#arquitetura">Arquitetura</a> ·
+  <a href="#status">Status</a> ·
+  <a href="#documentação">Documentação</a> ·
+  <a href="#desenvolvedorescontribuintes-octocat">Equipe</a>
+</p>
+
+> :warning: Projeto em desenvolvimento. Documentação atualizada em 24/11/2026, com base nos registros de 10/11/2026.
+
+## Descrição
+
+Projeto final do curso do SENAI, desenvolvido em parceria com a CTI. Simula um ambiente corporativo completo, com matriz, filial e nuvem, aplicando conceitos de redes, segurança, monitoramento e IoT em um contexto real.
+
+A solução demonstra como uma organização pode:
+
+- segmentar a rede em VLANs por função
+- controlar o acesso por firewalls
+- conectar escritórios por VPNs seguras, com redundância em anel
+- isolar e monitorar dispositivos IoT, com alertas de acesso indevido
+- integrar uma aplicação de cadastro de clientes com banco de dados em nuvem
+- centralizar logs e monitoramento
+
+## Arquitetura
+
+<p align="center">
+  <img src="./imagens/topologia-inicial-cti.png" alt="Topologia inicial do projeto, definida pela CTI" width="100%" />
+  <br><sub>Topologia solicitada pela CTI</sub>
+</p>
+
+<p align="center">
+  <img src="./imagens/diagrama-prototipo-matriz.jpg" alt="Diagrama do protótipo 1.2 da matriz" width="100%" />
+  <br><sub>Diagrama do protótipo 1.2 · Matriz</sub>
+</p>
 
 | VLAN | Uso | Faixa |
 |------|-----|-------|
@@ -19,19 +54,49 @@ graph LR
 | 8 | TI | 10.0.8.0/24 |
 | 10 | IoT | 10.0.10.0/24 |
 
-Endereçamento completo, hosts e túneis em [docs/arquitetura.md](docs/arquitetura.md).
+Componentes, endereçamento completo e túneis em [docs/02-arquitetura.md](docs/02-arquitetura.md).
 
 ## Status
 
-Conforme a documentação de 10/11/2026 (detalhe por requisito em [docs/requisitos.md](docs/requisitos.md)).
+Detalhe por requisito em [docs/01-requisitos.md](docs/01-requisitos.md).
 
 | Frente | Situação |
 |--------|----------|
-| Servidores da matriz (ESXi, Active Directory, servidor Linux) | Concluído |
-| Monitoramento (Zabbix, syslog) e IoT emulado | Concluído na matriz |
-| Aplicação de cadastro com controle de acesso por VLAN | Funcionando, com banco local |
-| Firewall e VPN matriz–meio–filial | Em andamento: túnel matriz–meio ainda não estabeleceu |
-| Banco na nuvem, anel de VPN, filial completa, acesso remoto com dupla autenticação | Pendente |
+| Servidores da matriz (ESXi, Active Directory, servidor Linux) | :white_check_mark: Concluído |
+| Monitoramento (Zabbix, syslog) e IoT emulado | :white_check_mark: Concluído na matriz |
+| Aplicação de cadastro com controle de acesso por VLAN | :white_check_mark: Funcionando, com banco local |
+| Switch da matriz | :white_check_mark: Concluído |
+| Switch da filial | :construction: Configuração inicial provisória |
+| Firewall e VPN matriz–meio–filial | :construction: Túnel matriz–meio ainda não estabeleceu |
+| Banco na nuvem, anel de VPN, filial completa, acesso remoto com dupla autenticação | :hourglass_flowing_sand: Pendente |
+
+## Documentação
+
+| # | Documento | Conteúdo |
+|---|-----------|----------|
+| 01 | [Requisitos e status](docs/01-requisitos.md) | O que a CTI/SENAI pediu e onde cada item está |
+| 02 | [Arquitetura e endereçamento](docs/02-arquitetura.md) | Componentes, VLANs, IPs, hosts e túneis |
+| 03 | [Servidores](docs/03-servidores.md) | ESXi, Active Directory, servidor Linux e aplicação |
+| 04 | [Monitoramento e IoT](docs/04-monitoramento-iot.md) | Zabbix, syslog, MQTT e dispositivo IoT emulado |
+| 05 | [Switches](docs/05-switches.md) | Switch da matriz e da filial |
+| 06 | [Firewalls](docs/06-firewalls.md) | Matriz, meio e filial, com as políticas de acesso |
+| 07 | [VPN e anel](docs/07-vpn.md) | Túneis, redundância, estado atual e diferenças em relação à produção |
+| 08 | [Diagnóstico da VPN](docs/08-vpn-diagnostico.md) | Investigação do túnel matriz–meio e comandos de verificação |
+| 09 | [Segurança](docs/09-seguranca.md) | Controles aplicados, limitações e checklist de entrega |
+| 10 | [Pendências](docs/10-pendencias.md) | O que falta, por frente de trabalho |
+
+## Estrutura do repositório
+
+```
+├── README.md
+├── LICENSE
+├── docs/        documentação por tema (01 a 10)
+├── configs/     configurações dos firewalls, sem senhas
+├── scripts/     scripts do projeto (emulador IoT, dashboards do Zabbix)
+└── imagens/     diagramas e evidências
+```
+
+> Nenhuma senha, token ou `show running-config` deve ser versionado neste repositório.
 
 ## Desenvolvedores/Contribuintes :octocat:
 
@@ -39,28 +104,12 @@ Conforme a documentação de 10/11/2026 (detalhe por requisito em [docs/requisit
 | :---: | :---: | :---: | :---: | :---: |
 | Documentação | Servidor | Firewall | Firewall | Switch & IoT |
 
-## Documentação
+---
 
-| Documento | Conteúdo |
-|-----------|----------|
-| [Requisitos e status](docs/requisitos.md) | O que o SENAI/CTI pediu e onde cada item está |
-| [Arquitetura e endereçamento](docs/arquitetura.md) | VLANs, IPs, hosts e túneis |
-| [Servidores](docs/servidores.md) | ESXi, Active Directory, servidor Linux e aplicação |
-| [Monitoramento e IoT](docs/monitoramento-iot.md) | Zabbix, syslog, MQTT e dispositivo IoT emulado |
-| [Rede, firewall e VPN](docs/rede-firewall-vpn.md) | Switch, políticas, túneis e diagnóstico |
-| [Segurança](docs/seguranca.md) | Controles aplicados, limitações e checklist de entrega |
-| [Pendências](docs/pendencias.md) | O que falta e pontos a alinhar entre as frentes |
+## Licença
 
-As configurações completas ficam em [`configs/`](configs/), os diagramas e prints em [`imagens/`](imagens/).
+Distribuído sob a [licença MIT](LICENSE).
 
-## Estrutura do repositório
+Copyright :copyright: 2026 · Projeto Rede de Dados (SENAI e CTI)
 
-```
-├── README.md
-├── docs/        documentação por tema
-├── configs/     configurações dos equipamentos (sem senhas)
-├── scripts/     scripts do projeto (emulador IoT)
-└── imagens/     diagramas e evidências
-```
-
-> Nenhuma senha, token ou `show running-config` deve ser versionado neste repositório.
+> Referência: [Preparação pré-projeto](https://miro.com/app/board/uXjVHhTdmiQ=/?share_link_id=182961988823)

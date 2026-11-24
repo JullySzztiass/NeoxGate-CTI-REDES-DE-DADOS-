@@ -1,6 +1,6 @@
 # Servidores
 
-Escopo: servidor físico com ESXi, Active Directory, servidor Linux e aplicação de cadastro. Endereços em [arquitetura.md](arquitetura.md). Zabbix, MQTT e syslog estão em [monitoramento-iot.md](monitoramento-iot.md).
+Escopo: servidor físico com ESXi, Active Directory, servidor Linux e aplicação de cadastro. Endereços em [arquitetura.md](02-arquitetura.md). Zabbix, MQTT e syslog estão em [monitoramento-iot.md](04-monitoramento-iot.md).
 
 ## Servidor físico e ESXi
 
@@ -24,13 +24,13 @@ O `vSwitch-lab` tem os port groups `Vlan3-SRV` (ID 0, VLAN 3 chega sem tag como 
 
 **Máquinas virtuais.**
 
-| VM | Sistema | Recursos |
-|----|---------|----------|
-| SRV-Windows25 - NeoxGate | Windows Server 2025 | 2 vCPU, 6 GB, disco de 90 GB em Thin |
-| SRV-LINUX - NeoxGate | Debian 12 | 2 GB |
-| IoT - NeoxGate | Debian 12 | 2 vCPU, 2 GB, disco de 8 GB |
+| VM | Sistema | Recursos | Rede |
+|----|---------|----------|------|
+| SRV-Windows25 - NeoxGate | Windows Server 2025 | 2 vCPU, 6 GB, disco de 90 GB em Thin (cerca de 28 GB usados) | `Vlan3-SRV` e `VM Network` (placa temporária) |
+| SRV-LINUX - NeoxGate | Debian 12 | 2 GB | `Vlan3-SRV` e `VM Network` (placa temporária) |
+| IoT - NeoxGate | Debian 12 | 2 vCPU, 2 GB, disco de 8 GB | `Vlan10-iot` e `VM Network` (placa temporária) |
 
-Cada VM tem ainda uma placa temporária na `VM Network` para internet, a ser removida quando o firewall entregar a saída (ver [pendências](pendencias.md)). A VM `DOCKER-TOMCAT` que aparece no ESXi pertence a outro grupo.
+As placas temporárias na `VM Network` dão internet às VMs e serão removidas quando o firewall entregar a saída (ver [pendências](10-pendencias.md)). A VM `DOCKER-TOMCAT` que aparece no ESXi pertence a outro grupo.
 
 O disco do Windows foi migrado de Thick para Thin exportando e importando a VM com o `ovftool` (o export pelo navegador estourava o tempo), liberando cerca de 65 GB. A integridade foi conferida por hash SHA256 contra o manifesto.
 
@@ -44,7 +44,7 @@ O `SRV-WIN` (Windows Server 2025, 10.0.3.10) é o controlador de domínio único
 
 **Ingresso do Linux no domínio.** O `SRV-LINUX` entrou com `realm join` e `sssd` (`realm list` mostra `kerberos-member`, `adcli testjoin` valida a conta da máquina). O `/etc/resolv.conf` precisa apontar para 10.0.3.10, porque a placa temporária de internet reescreve o arquivo a cada reinicialização.
 
-Hoje qualquer usuário do domínio pode entrar no Linux (`allow-realm-logins`). Restringir ao grupo da TI depende de criar OUs e grupos ([pendências](pendencias.md)).
+Hoje qualquer usuário do domínio pode entrar no Linux (`allow-realm-logins`). Restringir ao grupo da TI depende de criar OUs e grupos ([pendências](10-pendencias.md)).
 
 ## SRV-LINUX
 
@@ -64,11 +64,11 @@ Debian 12 (`srv-linux.ad.neoxgate.lab`) concentra aplicação, banco, MQTT, sysl
 
 ## Aplicação de cadastro
 
-Roda no Apache em `/clientes` e permite o cadastro de clientes no banco `appclientes` (MariaDB, usuário próprio). O banco é local; a migração para a nuvem está nas [pendências](pendencias.md).
+Roda no Apache em `/clientes` e permite o cadastro de clientes no banco `appclientes` (MariaDB, usuário próprio). O banco é local; a migração para a nuvem está nas [pendências](10-pendencias.md).
 
 **Controle de acesso.** O arquivo `appclientes.conf` do Apache usa `Require ip` para liberar somente as VLANs 5 e 8 e o próprio servidor. A VLAN 3 recebe `403 Forbidden`, como o briefing pede. A prova está no acesso feito a partir do `SRV-WIN` (VLAN 3); para demonstrar a aplicação funcionando, o acesso precisa vir de uma máquina das VLANs 5 ou 8.
 
-**Limitação.** A aplicação não tem login, então os logs do Apache registram só o IP de origem e não quem acessou. Detalhes e impacto na LGPD em [seguranca.md](seguranca.md#limitações-a-documentar).
+**Limitação.** A aplicação não tem login, então os logs do Apache registram só o IP de origem e não quem acessou. Detalhes e impacto na LGPD em [seguranca.md](09-seguranca.md#limitações-a-documentar).
 
 ## Testes realizados
 

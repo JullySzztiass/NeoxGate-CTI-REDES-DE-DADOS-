@@ -4,7 +4,7 @@ O Zabbix 7.0 monitora o dispositivo IoT emulado e os serviços do `SRV-LINUX`, a
 
 ## Dispositivo IoT emulado
 
-Um script bash (`/opt/iot/emulador.sh`) roda na VLAN 10 (`iot-matriz`, 10.0.10.10) e envia por MQTT, a cada 5 segundos, as leituras de movimento (`pir`), luz (`ldr`) e distância (`dist`). Se houver movimento, luz acima de 2000 ou presença a menos de 30 cm, o campo `alarme` sobe para 1. A senha do MQTT é pedida na hora, sem ficar gravada.
+O dispositivo IoT é emulado em uma VM Debian 12 sem interface gráfica (`iot-matriz`, 10.0.10.10, VLAN 10). O script bash `/opt/iot/emulador.sh` e envia por MQTT, a cada 5 segundos, as leituras de movimento (`pir`), luz (`ldr`) e distância (`dist`). Se houver movimento, luz acima de 2000 ou presença a menos de 30 cm, o campo `alarme` sobe para 1. A senha do MQTT é pedida na hora, sem ficar gravada.
 
 O script aceita quatro cenários para teste:
 
@@ -76,4 +76,4 @@ Criados pela API do Zabbix com um script que pode ser executado de novo:
 | Gateway da VLAN 10 | `ping 10.0.10.1` responde em cerca de 0,2 ms |
 | Syslog do IoT no servidor | Linhas do IoT chegam ao SRV-LINUX depois da liberação da 514/UDP |
 
-As regras de firewall que sustentam esse fluxo (política 13) estão em [rede-firewall-vpn.md](rede-firewall-vpn.md#políticas-do-firewall-da-matriz).
+As regras de firewall que sustentam esse fluxo (política 13) estão em [06-firewalls.md](06-firewalls.md#políticas-de-firewall).

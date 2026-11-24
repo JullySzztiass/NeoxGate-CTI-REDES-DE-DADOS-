@@ -1,6 +1,6 @@
 # FortiGate da filial (FGT-VDOM-FILIAL-SENAI, VDOM NEOXGATE) - MODELO, AINDA NÃO APLICADO
 # Mesmo molde da matriz, apontando para o meio. Depende da WAN da filial (lan2).
-# Se for usado o cabo direto filial <-> meio, remote-gw e interface mudam (ver docs/rede-firewall-vpn.md).
+# Se for usado o cabo direto filial <-> meio, remote-gw e interface mudam (ver docs/07-vpn.md).
 # Troque <SENHA-FORTE-2> por uma senha forte, igual no meio. Não versionar a senha real.
 
 config vpn ipsec phase1-interface
