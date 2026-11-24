@@ -1,0 +1,65 @@
+# FortiGate da matriz (FGT-VDOM-MTZ-SENAI) - túnel para o meio e syslog do IoT
+# Troque <SENHA-FORTE-1> por uma senha forte, igual nas duas pontas. Não versionar a senha real.
+# Laboratório: proposal des-sha256 (o meio só oferece DES). Em produção: aes256-sha256.
+
+config vpn ipsec phase1-interface
+    edit "VPN-MTZ-MEIO"
+        set interface "lan2"
+        set ike-version 2
+        set peertype any
+        set net-device disable
+        set proposal des-sha256
+        set dhgrp 14
+        set remote-gw 172.16.31.43
+        set psksecret <SENHA-FORTE-1>
+        set dpd on-idle
+        set dpd-retrycount 3
+        set dpd-retryinterval 10
+    next
+end
+
+config vpn ipsec phase2-interface
+    edit "VPN-MTZ-MEIO"
+        set phase1name "VPN-MTZ-MEIO"
+        set proposal des-sha256
+        set dhgrp 14
+        set auto-negotiate enable
+    next
+end
+
+config system interface
+    edit "VPN-MTZ-MEIO"
+        set ip 172.31.0.14 255.255.255.255
+        set remote-ip 172.31.0.13 255.255.255.252
+        set allowaccess ping
+    next
+end
+
+config router static
+    edit 0
+        set dst 10.1.5.0 255.255.255.0
+        set device "VPN-MTZ-MEIO"
+        set comment "PCs filial via meio"
+    next
+    edit 0
+        set dst 10.1.10.0 255.255.255.0
+        set device "VPN-MTZ-MEIO"
+        set comment "IoT filial via meio"
+    next
+end
+
+# Syslog do IoT (10.0.10.10 -> 10.0.3.20): serviços próprios acrescentados à política 13
+config firewall service custom
+    edit "SYSLOG-UDP-514"
+        set udp-portrange 514
+    next
+    edit "SYSLOG-TCP-514"
+        set tcp-portrange 514
+    next
+end
+
+config firewall policy
+    edit 13
+        append service "SYSLOG-UDP-514" "SYSLOG-TCP-514"
+    next
+end

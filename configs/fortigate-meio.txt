@@ -1,0 +1,87 @@
+# FortiGate do meio (FortiGate-VM, sem VDOM) - túnel para a matriz
+# O proposal aes256-sha256 foi rejeitado (command parse error -61); só há opções null-* e des-*.
+# Fase 1 e fase 2 verificadas com show full-configuration. A interface do túnel, as rotas e as
+# políticas abaixo foram passadas por último; o resultado ainda não foi confirmado.
+# A senha pré-compartilhada (psksecret) deve ser definida igual à da matriz. Não versionar.
+
+config vpn ipsec phase1-interface
+    edit "VPN-MEIO-MTZ"
+        set interface "port1"
+        set ike-version 2
+        set peertype any
+        set net-device disable
+        set proposal des-sha256
+        set dhgrp 14
+        set remote-gw 172.16.31.30
+        set dpd on-idle
+        set dpd-retrycount 3
+        set dpd-retryinterval 10
+    next
+end
+
+config vpn ipsec phase2-interface
+    edit "VPN-MEIO-MTZ"
+        set phase1name "VPN-MEIO-MTZ"
+        set proposal des-sha256
+        set dhgrp 14
+        set auto-negotiate enable
+    next
+end
+
+config system interface
+    edit "VPN-MEIO-MTZ"
+        set ip 172.31.0.13 255.255.255.255
+        set remote-ip 172.31.0.14 255.255.255.252
+        set allowaccess ping
+    next
+end
+
+config router static
+    edit 0
+        set dst 10.0.3.0 255.255.255.0
+        set device "VPN-MEIO-MTZ"
+        set comment "Servidores matriz"
+    next
+    edit 0
+        set dst 10.0.10.0 255.255.255.0
+        set device "VPN-MEIO-MTZ"
+        set comment "IoT matriz"
+    next
+end
+
+# Políticas provisórias, só entre servidores/IoT, usando a port1 como saída
+# até o túnel da filial existir (depois trocar por VPN-MEIO-FIL).
+config firewall address
+    edit "SRV-MATRIZ"
+        set subnet 10.0.3.0 255.255.255.0
+    next
+    edit "IOT-MATRIZ"
+        set subnet 10.0.10.0 255.255.255.0
+    next
+    edit "IOT-FILIAL"
+        set subnet 10.1.10.0 255.255.255.0
+    next
+end
+
+config firewall policy
+    edit 0
+        set name "MTZ-para-FIL-IoT"
+        set srcintf "VPN-MEIO-MTZ"
+        set dstintf "port1"
+        set srcaddr "SRV-MATRIZ" "IOT-MATRIZ"
+        set dstaddr "IOT-FILIAL"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+    next
+    edit 0
+        set name "FIL-IoT-para-MTZ"
+        set srcintf "port1"
+        set dstintf "VPN-MEIO-MTZ"
+        set srcaddr "IOT-FILIAL"
+        set dstaddr "SRV-MATRIZ" "IOT-MATRIZ"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+    next
+end
