@@ -81,7 +81,7 @@ Detalhe por requisito em [docs/01-requisitos.md](docs/01-requisitos.md).
 | 05 | [Switches](docs/05-switches.md) | Switch da matriz e da filial |
 | 06 | [Firewalls](docs/06-firewalls.md) | Matriz, meio e filial, com as políticas de acesso |
 | 07 | [VPN e anel](docs/07-vpn.md) | Túneis, redundância, estado atual e diferenças em relação à produção |
-| 08 | [Diagnóstico da VPN](docs/08-vpn-diagnostico.md) | Investigação do túnel matriz–meio e comandos de verificação |
+| 08 | [Diagnóstico da VPN e da filial](docs/08-vpn-diagnostico.md) | Investigação do túnel matriz–meio, acesso à filial e comandos de verificação |
 | 09 | [Segurança](docs/09-seguranca.md) | Controles aplicados, limitações e checklist de entrega |
 | 10 | [Pendências](docs/10-pendencias.md) | O que falta, por frente de trabalho |
 

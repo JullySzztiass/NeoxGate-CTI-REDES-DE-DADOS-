@@ -4,25 +4,7 @@ Concentra todos os endereços do projeto. Os demais documentos apontam para esta
 
 ## Topologia
 
-<p align="center">
-  <img src="../imagens/topologia-inicial-cti.png" alt="Topologia inicial do projeto, definida pela CTI" width="100%" />
-  <br><sub>Topologia solicitada pela CTI</sub>
-</p>
-
-<p align="center">
-  <img src="../imagens/diagrama-prototipo-matriz.jpg" alt="Diagrama do protótipo 1.2 da matriz" width="100%" />
-  <br><sub>Diagrama do protótipo 1.2 · Matriz</sub>
-</p>
-
-O diagrama do projeto não pode ser alterado. Ele prevê um firewall em cada escritório e um firewall do meio, ligados por VPN, com o banco de dados em nuvem fechando o anel.
-
-```mermaid
-graph LR
-    FIL["Filial"] -->|VPN-FIL-MEIO| MEIO["Firewall do meio"]
-    MEIO -->|VPN-MTZ-MEIO| MTZ["Matriz"]
-    MTZ -->|VPN| NUV[("Nuvem AWS")]
-    NUV -->|VPN| FIL
-```
+Os diagramas do projeto (topologia solicitada pela CTI e protótipo 1.2 da matriz) estão no [README](../README.md#arquitetura), e o anel de VPN em [07-vpn.md](07-vpn.md#desenho). O diagrama do projeto não pode ser alterado: prevê um firewall em cada escritório e um firewall do meio, ligados por VPN, com o banco de dados em nuvem fechando o anel.
 
 ### Componentes
 
@@ -68,13 +50,13 @@ Detalhes de cada firewall em [06-firewalls.md](06-firewalls.md).
 
 A faixa 172.31.0.12/30 foi proposta porque a tabela original previa uma só faixa para o trecho matriz–filial e agora são dois túneis; ela depende da aprovação do grupo. As faixas 169.254.x.x vêm do desenho original, por causa da AWS.
 
-### Rede do laboratório
+### Rede da escola (laboratório)
 
 | Item | Endereço | Observação |
 |------|----------|------------|
-| WAN de matriz e meio | 172.16.31.0/24 | DHCP da rede do laboratório |
-| ESXi (gerência) | 172.16.31.38 | Rede física da escola |
-| iDRAC do servidor | 172.16.9.4 | Rede física da escola |
+| WAN de matriz e meio | 172.16.31.0/24 | DHCP; mesma faixa da gerência do ESXi |
+| ESXi (gerência) | 172.16.31.38 | Rede da escola |
+| iDRAC do servidor | 172.16.9.4 | Rede da escola |
 
 ### Hosts da matriz
 

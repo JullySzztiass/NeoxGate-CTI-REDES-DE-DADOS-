@@ -1,6 +1,6 @@
 # Scripts
 
-Scripts usados no projeto, versionados aqui para o grupo reproduzir o ambiente.
+Pasta reservada aos scripts do projeto, para o grupo reproduzir o ambiente. **Ainda não foram adicionados.**
 
 | Script | Onde roda | Função |
 |--------|-----------|--------|

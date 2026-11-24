@@ -12,7 +12,7 @@ Base: registros de 10/11/2026. A situação de cada requisito está em [01-requi
 | Firewall | Verificar a configuração de DNS do FortiGate da matriz e a rota padrão | [Conectividade](06-firewalls.md#conectividade-com-a-internet) |
 | Firewall | Confirmar o modelo do firewall da filial | |
 | Firewall | Confirmar os IPs de gerência (192.168.100.x) e os IPs da `lan1` (192.168.200.x) dos firewalls | Documentos de origem listam os dois conjuntos |
-| Firewall | Definir o tempo de convergência do anel | |
+| VPN | Definir o protocolo de roteamento do anel (OSPF previsto; hoje as rotas são estáticas) e o tempo de convergência | |
 | Firewall | Pedir à CTI reserva de DHCP para a `lan2` da matriz e a `port1` do meio | Evita que o túnel caia se o IP mudar |
 | Firewall | Navegação da filial pelo firewall da matriz | Exigência do briefing |
 | Firewall | Liberar até 10.0.3.10 as portas do AD para as VLANs 5 e 8 | DNS, Kerberos, LDAP, SMB, RPC e tempo |
@@ -25,7 +25,7 @@ Base: registros de 10/11/2026. A situação de cada requisito está em [01-requi
 | Servidores | Estrutura do AD: OUs, grupos e usuários de TI e colaboradores | Destrava a restrição do login do Linux e do RDP à TI |
 | Servidores | Acesso remoto ao Windows com SSO e dupla autenticação | Diferencial do briefing |
 | Servidores | Monitorar o SRV-WIN no Zabbix | Agente do Windows e template `Windows by Zabbix agent` |
-| Servidores | DNS único: integrar o AD e o DNS do Kali | Hoje são duas zonas separadas |
+| Servidores | DNS único: integrar o AD e o DNS do Kali | Hoje são duas zonas separadas; a política 11 só libera DNS para o 10.0.3.20 |
 | Servidores | Serviço systemd para o emulador IoT subir sozinho | Hoje roda à mão |
 | Servidores | Teste de reinicialização de todas as VMs e do switch | Confirma a persistência das rotas e dos serviços |
 | Servidores | Painéis do Grafana | Opcional; já está instalado |

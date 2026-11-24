@@ -32,7 +32,7 @@ O `vSwitch-lab` tem os port groups `Vlan3-SRV` (ID 0, VLAN 3 chega sem tag como 
 
 As placas temporárias na `VM Network` dão internet às VMs e serão removidas quando o firewall entregar a saída (ver [pendências](10-pendencias.md)). A VM `DOCKER-TOMCAT` que aparece no ESXi pertence a outro grupo.
 
-O disco do Windows foi migrado de Thick para Thin exportando e importando a VM com o `ovftool` (o export pelo navegador estourava o tempo), liberando cerca de 65 GB. A integridade foi conferida por hash SHA256 contra o manifesto.
+O disco do Windows foi migrado de Thick para Thin exportando e importando a VM com o `ovftool`, liberando cerca de 65 GB.
 
 ## Active Directory
 
@@ -40,9 +40,8 @@ O `SRV-WIN` (Windows Server 2025, 10.0.3.10) é o controlador de domínio único
 
 - A placa de internet temporária do Windows fica desativada: o controlador de domínio registraria o IP dela no DNS e os clientes de outras VLANs receberiam o endereço errado.
 - O SSH está ativo para administração remota.
-- `dcdiag` passa nos testes de conectividade, anúncio, serviços, NetLogon e FSMO; SYSVOL e NETLOGON estão compartilhados.
 
-**Ingresso do Linux no domínio.** O `SRV-LINUX` entrou com `realm join` e `sssd` (`realm list` mostra `kerberos-member`, `adcli testjoin` valida a conta da máquina). O `/etc/resolv.conf` precisa apontar para 10.0.3.10, porque a placa temporária de internet reescreve o arquivo a cada reinicialização.
+**Ingresso do Linux no domínio.** O `SRV-LINUX` entrou com `realm join` e `sssd`. O `/etc/resolv.conf` precisa apontar para 10.0.3.10, porque a placa temporária de internet reescreve o arquivo a cada reinicialização.
 
 Hoje qualquer usuário do domínio pode entrar no Linux (`allow-realm-logins`). Restringir ao grupo da TI depende de criar OUs e grupos ([pendências](10-pendencias.md)).
 

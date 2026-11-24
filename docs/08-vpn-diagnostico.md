@@ -1,4 +1,4 @@
-# Diagnóstico da VPN matriz–meio
+# Diagnóstico da VPN e da filial
 
 Registro da investigação de 10/11/2026. O meio recebe o pedido IKE da matriz e o descarta com `no policy configured`; rede, proposal e configuração do túnel foram descartados como causa. Contexto geral em [07-vpn.md](07-vpn.md).
 
