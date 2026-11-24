@@ -4,7 +4,7 @@ O Zabbix 7.0 monitora o dispositivo IoT emulado e os serviços do `SRV-LINUX`, a
 
 ## Dispositivo IoT emulado
 
-O dispositivo IoT é emulado em uma VM Debian 12 sem interface gráfica (`iot-matriz`, 10.0.10.10, VLAN 10). O script bash `/opt/iot/emulador.sh` e envia por MQTT, a cada 5 segundos, as leituras de movimento (`pir`), luz (`ldr`) e distância (`dist`). Se houver movimento, luz acima de 2000 ou presença a menos de 30 cm, o campo `alarme` sobe para 1. A senha do MQTT é pedida na hora, sem ficar gravada.
+O dispositivo IoT é emulado em uma VM Debian 12 sem interface gráfica (`iot-matriz`, 10.0.10.10, VLAN 10). O script bash `/opt/iot/emulador.sh` envia por MQTT, a cada 5 segundos, as leituras de movimento (`pir`), luz (`ldr`) e distância (`dist`). Se houver movimento, luz acima de 2000 ou presença a menos de 30 cm, o campo `alarme` sobe para 1. A senha do MQTT é pedida na hora, sem ficar gravada.
 
 O script aceita quatro cenários para teste:
 
