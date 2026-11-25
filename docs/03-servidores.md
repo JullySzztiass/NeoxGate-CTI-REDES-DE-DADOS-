@@ -1,6 +1,6 @@
 # Servidores
 
-Escopo: servidor físico com ESXi, Active Directory, servidor Linux e aplicação de cadastro. Endereços em [arquitetura.md](02-arquitetura.md). Zabbix, MQTT e syslog estão em [monitoramento-iot.md](04-monitoramento-iot.md).
+> **Escopo:** infraestrutura física, ESXi, Active Directory e aplicação. Consulte [arquitetura e endereçamento](02-arquitetura.md) para IPs e [monitoramento e IoT](04-monitoramento-iot.md) para Zabbix, MQTT e syslog.
 
 ## Servidor físico e ESXi
 
