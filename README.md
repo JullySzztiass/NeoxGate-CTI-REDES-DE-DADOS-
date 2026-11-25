@@ -1,4 +1,4 @@
-<h1 align="center">Projeto Rede de Dados</h1>
+<h1 align="center">NeoxGate · Projeto de Redes de Dados</h1>
 
 <p align="center"><strong>Tutoria 2026 · SENAI × CTI</strong></p>
 
@@ -20,7 +20,7 @@
   <a href="#desenvolvedorescontribuintes-octocat">Equipe</a>
 </p>
 
-> :warning: Projeto em desenvolvimento. Documentação atualizada em 24/11/2026, com base nos registros de 10/11/2026.
+> :warning: **Projeto em desenvolvimento**  \n> Documentação atualizada em 24/11/2026, com base nos registros técnicos de 10/11/2026.
 
 ## Descrição
 
@@ -54,7 +54,7 @@ A solução demonstra como uma organização pode:
 | 8 | TI | 10.0.8.0/24 |
 | 10 | IoT | 10.0.10.0/24 |
 
-Componentes, endereçamento completo e túneis em [docs/02-arquitetura.md](docs/02-arquitetura.md).
+> **Detalhes técnicos:** [componentes, endereçamento e túneis](docs/02-arquitetura.md).
 
 ## Status
 
