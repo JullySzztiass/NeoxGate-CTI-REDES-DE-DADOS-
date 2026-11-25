@@ -1,6 +1,6 @@
 # Arquitetura e endereçamento
 
-Concentra todos os endereços do projeto. Os demais documentos apontam para esta página em vez de repeti-los.
+> **Referência central:** endereços, redes, hosts e túneis do projeto. Os demais documentos apontam para esta página para evitar duplicação.
 
 ## Topologia
 
