@@ -1,6 +1,6 @@
 # Switches
 
-## Switch da matriz
+## Matriz · `SW-MATRIZ`
 
 `SW-MATRIZ` (Cisco WS-C2960S-24TD-L), com as VLANs 3, 5, 8 e 10 criadas. Substitui o switch virtual em Open vSwitch usado no protótipo.
 
@@ -14,7 +14,7 @@
 
 O switch separa o tráfego por função: VLAN 3 (servidores), VLAN 5 (colaboradores), VLAN 8 (TI) e VLAN 10 (IoT).
 
-## Switch da filial
+## Filial · `SW-FILIAL-CTI`
 
 Cisco Catalyst 2960-S (`SW-FILIAL-CTI`). A configuração inicial já foi aplicada, mas é **provisória**: as conexões e as VLANs ainda precisam ser validadas antes de o equipamento ser considerado pronto.
 
