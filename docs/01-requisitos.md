@@ -1,6 +1,6 @@
 # Requisitos e status
 
-O desafio pede um ambiente que reproduza uma empresa real, com nuvem, roteamento, resiliência de comunicação, segurança, IoT, desenvolvimento e monitoramento. A tabela cruza cada requisito do briefing com a situação atual (base: registros de 10/11/2026).
+A matriz abaixo relaciona os requisitos do briefing ao estado registrado em **10/11/2026** e aponta onde consultar os detalhes.
 
 | Símbolo | Significado |
 |---------|-------------|
